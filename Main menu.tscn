@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bf0ah6k48h2cb"]
+[gd_scene format=3 uid="uid://bf0ah6k48h2cb"]
 
-[ext_resource type="Script" uid="uid://cddrs422a5ylt" path="res://Menu.gd" id="1_7jlr6"]
-[ext_resource type="Script" uid="uid://bhr6cva5vi4xb" path="res://start.gd" id="2_enwfr"]
-[ext_resource type="Script" uid="uid://dopetfcinu4rt" path="res://settings.gd" id="3_um2lw"]
-[ext_resource type="Script" uid="uid://dpwplo5kjpkrv" path="res://online.gd" id="4_m82ya"]
+[ext_resource type="Script" path="res://Menu.gd" id="1_7jlr6"]
+[ext_resource type="Script" path="res://start.gd" id="2_enwfr"]
+[ext_resource type="Script" path="res://settings.gd" id="3_um2lw"]
+[ext_resource type="Script" path="res://online.gd" id="4_m82ya"]
 
-[node name="Control" type="Control" node_paths=PackedStringArray("start_button", "online_button", "settings_button")]
+[node name="Control" type="Control" unique_id=1139392112 node_paths=PackedStringArray("start_button", "online_button", "settings_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,10 +17,10 @@ start_button = NodePath("Camera2D/Start")
 online_button = NodePath("Camera2D/Online")
 settings_button = NodePath("Camera2D/Settings")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1869010064]
 position = Vector2(776, 100)
 
-[node name="Start" type="Button" parent="Camera2D"]
+[node name="Start" type="Button" parent="Camera2D" unique_id=1999233335]
 offset_left = 258.0
 offset_top = -155.0
 offset_right = 481.0
@@ -28,9 +28,9 @@ offset_bottom = -81.0
 text = "Start
 "
 script = ExtResource("2_enwfr")
-character_select_scene = "uid://bp4tdve72ofbp"
+character_select_scene = "uid://8sk1cqtsna3d"
 
-[node name="Settings" type="Button" parent="Camera2D"]
+[node name="Settings" type="Button" parent="Camera2D" unique_id=1528933426]
 offset_left = 261.0
 offset_top = -64.0
 offset_right = 484.0
@@ -38,7 +38,7 @@ offset_bottom = 10.0
 text = "Settings"
 script = ExtResource("3_um2lw")
 
-[node name="Online" type="Button" parent="Camera2D"]
+[node name="Online" type="Button" parent="Camera2D" unique_id=2092948307]
 offset_left = 261.0
 offset_top = 34.0
 offset_right = 484.0

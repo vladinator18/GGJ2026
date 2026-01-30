@@ -1,3 +1,27 @@
 [gd_scene format=3 uid="uid://8sk1cqtsna3d"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://v0rtefynlfx2" path="res://IMG_1578.PNG" id="1_mc20k"]
+[ext_resource type="PackedScene" uid="uid://doqlgiwevo3sl" path="res://SpriteA.tscn" id="2_cove1"]
+[ext_resource type="Texture2D" uid="uid://bm1fjts1yjkhw" path="res://Punch1.png" id="3_5py54"]
+[ext_resource type="Texture2D" uid="uid://dc780f05nwvn0" path="res://Punch3.png" id="5_5g1s2"]
+[ext_resource type="Texture2D" uid="uid://m0egxxowx0rb" path="res://Walk2.png" id="5_5py54"]
+[ext_resource type="Texture2D" uid="uid://bn338pw01s3ba" path="res://Punch4.png" id="6_aiv1b"]
+[ext_resource type="Texture2D" uid="uid://bjkjgh1xn78ag" path="res://Walk5.png" id="8_1bjei"]
+[ext_resource type="Texture2D" uid="uid://b1jhjqml34vx" path="res://Punch6.png" id="8_a2cb0"]
+[ext_resource type="Texture2D" uid="uid://cqtsulk1h5eux" path="res://Walk1.png" id="9_3gjqj"]
+
+[node name="Node2D" type="Node2D" unique_id=287971039]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=47001588]
+position = Vector2(-90, 92)
+zoom = Vector2(0.1, 0.1)
+
+[node name="Img1578" type="Sprite2D" parent="." unique_id=1808675923]
+position = Vector2(-763, -470.00003)
+scale = Vector2(5, 5)
+texture = ExtResource("1_mc20k")
+
+[node name="Sunny" parent="." unique_id=56909412 instance=ExtResource("2_cove1")]
+position = Vector2(-5205, 1315)
+walk_frame_duration = 0.05
+light_attack_sprites = Array[Texture2D]([ExtResource("9_3gjqj"), ExtResource("3_5py54"), ExtResource("5_5py54"), ExtResource("5_5g1s2"), ExtResource("6_aiv1b"), ExtResource("8_1bjei"), ExtResource("8_a2cb0"), ExtResource("3_5py54")])

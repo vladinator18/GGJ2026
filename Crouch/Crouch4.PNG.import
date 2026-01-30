@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpseclhhl10wu"
-path="res://.godot/imported/Walk5.PNG-b10e942516f2c83bbc102e288b65f2d1.ctex"
+uid="uid://b0c7dn2n8mkge"
+path="res://.godot/imported/Crouch4.PNG-3cb07f737f19c9f20f1211e64056d00b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Walk5.PNG"
-dest_files=["res://.godot/imported/Walk5.PNG-b10e942516f2c83bbc102e288b65f2d1.ctex"]
+source_file="res://Crouch/Crouch4.PNG"
+dest_files=["res://.godot/imported/Crouch4.PNG-3cb07f737f19c9f20f1211e64056d00b.ctex"]
 
 [params]
 

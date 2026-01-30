@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpseclhhl10wu"
-path="res://.godot/imported/Walk5.PNG-b10e942516f2c83bbc102e288b65f2d1.ctex"
+uid="uid://dbw8c113bhw7b"
+path="res://.godot/imported/IDLE5.PNG-ed8cc1dc0e74f2967c2b8a47d3db2ed3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Walk5.PNG"
-dest_files=["res://.godot/imported/Walk5.PNG-b10e942516f2c83bbc102e288b65f2d1.ctex"]
+source_file="res://Sprites/Sunny/IDLE/IDLE5.PNG"
+dest_files=["res://.godot/imported/IDLE5.PNG-ed8cc1dc0e74f2967c2b8a47d3db2ed3.ctex"]
 
 [params]
 

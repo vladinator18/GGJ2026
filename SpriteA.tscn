@@ -1,18 +1,35 @@
-[gd_scene load_steps=17 format=3 uid="uid://c12qm5ygmcngc"]
+[gd_scene format=3 uid="uid://doqlgiwevo3sl"]
 
 [ext_resource type="Script" uid="uid://cogr45tv7d5iu" path="res://Sunny.gd" id="1_a2f65"]
-[ext_resource type="Texture2D" uid="uid://cqtsulk1h5eux" path="res://Walk1.png" id="2_36fcp"]
-[ext_resource type="Texture2D" uid="uid://bj18dq2x32lhs" path="res://Untitled_Artwork.png" id="2_e1jte"]
-[ext_resource type="Texture2D" uid="uid://bm1fjts1yjkhw" path="res://Punch1.png" id="2_xyie2"]
+[ext_resource type="Texture2D" uid="uid://b1cve5pt1uvqc" path="res://Walk1.png" id="2_36fcp"]
+[ext_resource type="Texture2D" uid="uid://ctc74tr0yvj6y" path="res://Sprites/Sunny/IDLE/IDLE1.PNG" id="2_kaoov"]
 [ext_resource type="Texture2D" uid="uid://bo3dqpnujfbgf" path="res://Punch2.png" id="3_2tsu6"]
-[ext_resource type="Texture2D" uid="uid://m0egxxowx0rb" path="res://Walk2.png" id="3_aqpsi"]
-[ext_resource type="Texture2D" uid="uid://ce2u1xpl23uou" path="res://Walk3.png" id="4_3fxmx"]
+[ext_resource type="Texture2D" uid="uid://clkw5wj88yphu" path="res://Walk2.png" id="3_aqpsi"]
+[ext_resource type="Texture2D" uid="uid://cc1u0mytxxuu3" path="res://Sprites/Sunny/IDLE/IDLE2.PNG" id="3_fubpg"]
+[ext_resource type="Texture2D" uid="uid://c821wwc7wqulu" path="res://Walk3.png" id="4_3fxmx"]
 [ext_resource type="Texture2D" uid="uid://dc780f05nwvn0" path="res://Punch3.png" id="4_s823a"]
+[ext_resource type="Texture2D" uid="uid://ckewx2dnnbjla" path="res://Sprites/Sunny/IDLE/IDLE3.PNG" id="4_vt2eq"]
 [ext_resource type="Texture2D" uid="uid://bn338pw01s3ba" path="res://Punch4.png" id="5_cuxp8"]
-[ext_resource type="Texture2D" uid="uid://b1ccn83ntyxr" path="res://Walk4.png" id="5_uhrpr"]
-[ext_resource type="Texture2D" uid="uid://bjkjgh1xn78ag" path="res://Walk5.png" id="6_kntoq"]
+[ext_resource type="Texture2D" uid="uid://i27ta6mqea6f" path="res://Sprites/Sunny/IDLE/IDLE4.PNG" id="5_qxntr"]
+[ext_resource type="Texture2D" uid="uid://cx2mn5xnj6b81" path="res://Walk4.png" id="5_uhrpr"]
+[ext_resource type="Texture2D" uid="uid://dpseclhhl10wu" path="res://Walk5.png" id="6_kntoq"]
+[ext_resource type="Texture2D" uid="uid://dbw8c113bhw7b" path="res://Sprites/Sunny/IDLE/IDLE5.PNG" id="6_ttglw"]
 [ext_resource type="Texture2D" uid="uid://cinx42kbbgmmo" path="res://Punch5.png" id="6_ullyt"]
+[ext_resource type="Texture2D" uid="uid://ldtg188ko1gt" path="res://Walk6.PNG" id="7_cuxp8"]
 [ext_resource type="Texture2D" uid="uid://b1jhjqml34vx" path="res://Punch6.png" id="7_m316d"]
+[ext_resource type="Texture2D" uid="uid://bpgn0k2ocpwfp" path="res://Crouch/Crouch1.PNG" id="11_io7w6"]
+[ext_resource type="Texture2D" uid="uid://42n5rpot1q8a" path="res://Crouch/Crouch2.PNG" id="12_77wfd"]
+[ext_resource type="Texture2D" uid="uid://732r3ll402vc" path="res://Walk7.PNG" id="13_2tsu6"]
+[ext_resource type="Texture2D" uid="uid://ca5n80305rkjw" path="res://Crouch/Crouch3.PNG" id="13_obl7n"]
+[ext_resource type="Texture2D" uid="uid://b0c7dn2n8mkge" path="res://Crouch/Crouch4.PNG" id="14_01sxw"]
+[ext_resource type="Texture2D" uid="uid://doajorfdinjde" path="res://Walk8.PNG" id="14_s823a"]
+[ext_resource type="Texture2D" uid="uid://dl8842g2rochs" path="res://Crouch/Crouch5.PNG" id="15_kaoov"]
+[ext_resource type="Texture2D" uid="uid://4gvt5epcfffw" path="res://Crouch/Crouch6.PNG" id="16_fubpg"]
+[ext_resource type="Texture2D" uid="uid://b1cve5pt1uvqc" path="res://Walk1.PNG" id="16_m316d"]
+[ext_resource type="Texture2D" uid="uid://cjsktuvmcvarp" path="res://Crouch/Crouch7.PNG" id="17_vt2eq"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_psxhv"]
+load_path = "res://.godot/imported/Punch1.png-2ba4d7eb6466340b1fddc2e970ad23f6.ctex"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y04va"]
 
@@ -22,33 +39,28 @@ size = Vector2(469.08276, 807.45496)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1jte"]
 size = Vector2(722.1001, 202.97253)
 
-[node name="Sunny" type="Sprite2D" node_paths=PackedStringArray("light_hitbox", "heavy_hitbox")]
+[node name="Sunny" type="Sprite2D" unique_id=120228279 node_paths=PackedStringArray("light_hitbox", "heavy_hitbox")]
 script = ExtResource("1_a2f65")
+idle_sprites = Array[Texture2D]([ExtResource("2_kaoov"), ExtResource("2_kaoov"), ExtResource("3_fubpg"), ExtResource("3_fubpg"), ExtResource("4_vt2eq"), ExtResource("4_vt2eq"), ExtResource("5_qxntr"), ExtResource("5_qxntr"), ExtResource("6_ttglw"), ExtResource("6_ttglw")])
+walk_sprites = Array[Texture2D]([ExtResource("2_36fcp"), ExtResource("3_aqpsi"), ExtResource("4_3fxmx"), ExtResource("5_uhrpr"), ExtResource("6_kntoq"), ExtResource("7_cuxp8"), ExtResource("13_2tsu6"), ExtResource("14_s823a")])
+crouch_down_sprites = Array[Texture2D]([ExtResource("11_io7w6"), ExtResource("12_77wfd"), ExtResource("13_obl7n"), ExtResource("14_01sxw"), ExtResource("15_kaoov"), ExtResource("16_fubpg"), ExtResource("17_vt2eq")])
+get_up_sprites = Array[Texture2D]([ExtResource("11_io7w6")])
+light_attack_sprites = Array[Texture2D]([SubResource("CompressedTexture2D_psxhv"), ExtResource("3_2tsu6"), ExtResource("4_s823a"), ExtResource("5_cuxp8"), ExtResource("6_ullyt"), ExtResource("7_m316d"), ExtResource("16_m316d")])
 light_hitbox = NodePath("CharacterBody2D/light")
 heavy_hitbox = NodePath("CharacterBody2D/Heavy")
-light_attack_sprites = Array[Texture2D]([ExtResource("2_xyie2"), ExtResource("3_2tsu6"), ExtResource("4_s823a"), ExtResource("5_cuxp8"), ExtResource("6_ullyt"), ExtResource("7_m316d")])
-walk_frame_duration = 0.0
-walk_sprites = Array[Texture2D]([ExtResource("2_36fcp"), ExtResource("3_aqpsi"), ExtResource("4_3fxmx"), ExtResource("5_uhrpr"), ExtResource("6_kntoq")])
 
-[node name="Sunny" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(-27, -319)
-texture = ExtResource("2_e1jte")
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1192398969]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1602020203]
 position = Vector2(5, -156)
 scale = Vector2(50, 50)
 shape = SubResource("CapsuleShape2D_y04va")
 
-[node name="Heavy" type="CollisionShape2D" parent="CharacterBody2D"]
-visible = false
+[node name="Heavy" type="CollisionShape2D" parent="CharacterBody2D" unique_id=248291668]
 position = Vector2(716, 14.000008)
 rotation = 0.25830874
 shape = SubResource("RectangleShape2D_a2f65")
 
-[node name="light" type="CollisionShape2D" parent="CharacterBody2D"]
-visible = false
+[node name="light" type="CollisionShape2D" parent="CharacterBody2D" unique_id=283159911]
 position = Vector2(609.94995, -182)
 shape = SubResource("RectangleShape2D_e1jte")

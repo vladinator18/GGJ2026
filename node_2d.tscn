@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bp4tdve72ofbp"]
+[gd_scene format=3 uid="uid://bp4tdve72ofbp"]
 
 [ext_resource type="PackedScene" uid="uid://c12qm5ygmcngc" path="res://SpriteA.tscn" id="1_wtcfe"]
 
