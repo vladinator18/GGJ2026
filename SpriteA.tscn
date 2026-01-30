@@ -23,10 +23,16 @@
 [ext_resource type="Texture2D" uid="uid://ca5n80305rkjw" path="res://Crouch/Crouch3.PNG" id="13_obl7n"]
 [ext_resource type="Texture2D" uid="uid://b0c7dn2n8mkge" path="res://Crouch/Crouch4.PNG" id="14_01sxw"]
 [ext_resource type="Texture2D" uid="uid://doajorfdinjde" path="res://Walk8.PNG" id="14_s823a"]
+[ext_resource type="Texture2D" uid="uid://p02r8sfc0350" path="res://Sprites/Sunny/Jump/Jump1.PNG" id="15_hiuc6"]
 [ext_resource type="Texture2D" uid="uid://dl8842g2rochs" path="res://Crouch/Crouch5.PNG" id="15_kaoov"]
 [ext_resource type="Texture2D" uid="uid://4gvt5epcfffw" path="res://Crouch/Crouch6.PNG" id="16_fubpg"]
 [ext_resource type="Texture2D" uid="uid://b1cve5pt1uvqc" path="res://Walk1.PNG" id="16_m316d"]
+[ext_resource type="Texture2D" uid="uid://dwxyqs3jtdy34" path="res://Sprites/Sunny/Jump/Jump2.PNG" id="16_rso0w"]
+[ext_resource type="Texture2D" uid="uid://bccojsgxrlijb" path="res://Sprites/Sunny/Jump/Jump3.PNG" id="17_36qyw"]
 [ext_resource type="Texture2D" uid="uid://cjsktuvmcvarp" path="res://Crouch/Crouch7.PNG" id="17_vt2eq"]
+[ext_resource type="Texture2D" uid="uid://cbx0mbs7hmbao" path="res://Sprites/Sunny/Jump/Jump5.PNG" id="18_yb2yx"]
+[ext_resource type="Texture2D" uid="uid://iradam2jquyb" path="res://Sprites/Sunny/Jump/Jump6.PNG" id="19_8sqe3"]
+[ext_resource type="Texture2D" uid="uid://bi350buxei28m" path="res://Sprites/Sunny/Jump/Jump7.PNG" id="20_c6hkt"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_psxhv"]
 load_path = "res://.godot/imported/Punch1.png-2ba4d7eb6466340b1fddc2e970ad23f6.ctex"
@@ -43,6 +49,7 @@ size = Vector2(722.1001, 202.97253)
 script = ExtResource("1_a2f65")
 idle_sprites = Array[Texture2D]([ExtResource("2_kaoov"), ExtResource("2_kaoov"), ExtResource("3_fubpg"), ExtResource("3_fubpg"), ExtResource("4_vt2eq"), ExtResource("4_vt2eq"), ExtResource("5_qxntr"), ExtResource("5_qxntr"), ExtResource("6_ttglw"), ExtResource("6_ttglw")])
 walk_sprites = Array[Texture2D]([ExtResource("2_36fcp"), ExtResource("3_aqpsi"), ExtResource("4_3fxmx"), ExtResource("5_uhrpr"), ExtResource("6_kntoq"), ExtResource("7_cuxp8"), ExtResource("13_2tsu6"), ExtResource("14_s823a")])
+jump_sprites = Array[Texture2D]([ExtResource("15_hiuc6"), ExtResource("16_rso0w"), ExtResource("17_36qyw"), ExtResource("17_36qyw"), ExtResource("18_yb2yx"), ExtResource("19_8sqe3"), ExtResource("20_c6hkt")])
 crouch_down_sprites = Array[Texture2D]([ExtResource("11_io7w6"), ExtResource("12_77wfd"), ExtResource("13_obl7n"), ExtResource("14_01sxw"), ExtResource("15_kaoov"), ExtResource("16_fubpg"), ExtResource("17_vt2eq")])
 get_up_sprites = Array[Texture2D]([ExtResource("11_io7w6")])
 light_attack_sprites = Array[Texture2D]([SubResource("CompressedTexture2D_psxhv"), ExtResource("3_2tsu6"), ExtResource("4_s823a"), ExtResource("5_cuxp8"), ExtResource("6_ullyt"), ExtResource("7_m316d"), ExtResource("16_m316d")])
