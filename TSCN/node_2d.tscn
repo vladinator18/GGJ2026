@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://ncjq854vybno"]
+
+[ext_resource type="PackedScene" uid="uid://cr7rdghiljv2p" path="res://SpriteA.tscn" id="1_wtcfe"]
+[ext_resource type="Texture2D" path="res://IMG_1578.PNG" id="2_0e48y"]
+[ext_resource type="Texture2D" path="res://Walk1.png" id="3_x0ka3"]
+[ext_resource type="Texture2D" path="res://Walk2.png" id="4_0h7mo"]
+[ext_resource type="Texture2D" path="res://Walk3.png" id="5_nr8wp"]
+[ext_resource type="Texture2D" path="res://Walk4.png" id="6_d2bti"]
+[ext_resource type="Texture2D" path="res://Walk5.png" id="7_ta5nu"]
+[ext_resource type="Texture2D" path="res://Punch1.png" id="8_flf07"]
+[ext_resource type="Texture2D" path="res://Punch3.png" id="9_k73cj"]
+[ext_resource type="Texture2D" path="res://Punch4.png" id="10_rjqkl"]
+[ext_resource type="Texture2D" path="res://Punch5.png" id="11_fs4d3"]
+[ext_resource type="Texture2D" path="res://Punch6.png" id="12_7vxoj"]
+
+[node name="MAP" type="Node2D" unique_id=1630042141]
+position = Vector2(0, -1)
+
+[node name="Img1578" type="Sprite2D" parent="." unique_id=2128219799]
+position = Vector2(37.500366, -102)
+scale = Vector2(4.318097, 6)
+texture = ExtResource("2_0e48y")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1082999749]
+zoom = Vector2(0.1, 0.1)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1886117606]
+position = Vector2(150, 19)
+
+[node name="Sunny2" parent="." unique_id=1971242375 instance=ExtResource("1_wtcfe")]
+position = Vector2(-9516, 4616)
+ground_speed = 800.0
+air_speed = 500.0
+jump_strength = -1000.0
+
+[node name="Sunny" parent="." unique_id=274819487 instance=ExtResource("1_wtcfe")]
+position = Vector2(-4758, 2308)
+ground_speed = 800.0
+air_speed = 500.0
+jump_strength = -1000.0
+walk_sprites = Array[Texture2D]([ExtResource("3_x0ka3"), ExtResource("4_0h7mo"), ExtResource("5_nr8wp"), ExtResource("6_d2bti"), ExtResource("7_ta5nu"), ExtResource("7_ta5nu")])
+light_attack_sprites = Array[Texture2D]([ExtResource("8_flf07"), ExtResource("4_0h7mo"), ExtResource("9_k73cj"), ExtResource("10_rjqkl"), ExtResource("11_fs4d3"), ExtResource("12_7vxoj"), ExtResource("3_x0ka3"), ExtResource("3_x0ka3")])

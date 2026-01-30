@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://66gnfwwmdfvg"]
+
+[ext_resource type="Script" path="res://Characterselect.gd" id="1_geenk"]
+[ext_resource type="Texture2D" path="res://Untitled_Artwork.png" id="1_o6tru"]
+
+[node name="Node2D" type="Control" unique_id=1894082750]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_geenk")
+
+[node name="UntitledArtwork" type="Sprite2D" parent="." unique_id=2008180490]
+position = Vector2(-3261, -1221)
+texture = ExtResource("1_o6tru")
+
+[node name="Button" type="Button" parent="UntitledArtwork" unique_id=915192843]
+offset_left = -1359.0
+offset_top = -1036.0
+offset_right = 1381.0
+offset_bottom = 1020.0
+icon = ExtResource("1_o6tru")
+
+[node name="UntitledArtwork2" type="Sprite2D" parent="." unique_id=964692129]
+position = Vector2(-1866, 756)
+texture = ExtResource("1_o6tru")
+
+[node name="Button" type="Button" parent="UntitledArtwork2" unique_id=1306783744]
+offset_left = -1359.0
+offset_top = -1036.0
+offset_right = 1381.0
+offset_bottom = 1020.0
+icon = ExtResource("1_o6tru")
+
+[node name="UntitledArtwork3" type="Sprite2D" parent="." unique_id=117223721]
+position = Vector2(3235, -1318)
+texture = ExtResource("1_o6tru")
+
+[node name="Button" type="Button" parent="UntitledArtwork3" unique_id=144417745]
+offset_left = -1359.0
+offset_top = -1036.0
+offset_right = 1381.0
+offset_bottom = 1020.0
+icon = ExtResource("1_o6tru")
+
+[node name="UntitledArtwork4" type="Sprite2D" parent="." unique_id=860554258]
+position = Vector2(2022, 716)
+texture = ExtResource("1_o6tru")
+
+[node name="Button" type="Button" parent="UntitledArtwork4" unique_id=561530561]
+offset_left = -1359.0
+offset_top = -1036.0
+offset_right = 1381.0
+offset_bottom = 1020.0
+icon = ExtResource("1_o6tru")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=769276118]
+position = Vector2(9, 0)
+zoom = Vector2(0.1, 0.1)

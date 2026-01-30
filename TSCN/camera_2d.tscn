@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://divo4g1ubehbu"]
+
+[ext_resource type="Texture2D" path="res://Untitled_Artwork.png" id="1_u0e42"]
+
+[node name="Camera2D" type="Camera2D" unique_id=1493466093]
+position = Vector2(586, 329)
+zoom = Vector2(0.1, 0.1)
+
+[node name="UntitledArtwork" type="Sprite2D" parent="." unique_id=789680363]
+position = Vector2(-3508, 626)
+texture = ExtResource("1_u0e42")
