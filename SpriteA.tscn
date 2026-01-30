@@ -1,8 +1,46 @@
-[gd_scene load_steps=2 format=3 uid="uid://c12qm5ygmcngc"]
+[gd_scene load_steps=11 format=3 uid="uid://c12qm5ygmcngc"]
+
+[ext_resource type="Script" uid="uid://cogr45tv7d5iu" path="res://Sunny.gd" id="1_a2f65"]
+[ext_resource type="Texture2D" uid="uid://cqtsulk1h5eux" path="res://Walk1.png" id="2_36fcp"]
+[ext_resource type="Texture2D" uid="uid://bj18dq2x32lhs" path="res://Untitled_Artwork.png" id="2_e1jte"]
+[ext_resource type="Texture2D" uid="uid://m0egxxowx0rb" path="res://Walk2.png" id="3_aqpsi"]
+[ext_resource type="Texture2D" uid="uid://ce2u1xpl23uou" path="res://Walk3.png" id="4_3fxmx"]
+[ext_resource type="Texture2D" uid="uid://b1ccn83ntyxr" path="res://Walk4.png" id="5_uhrpr"]
+[ext_resource type="Texture2D" uid="uid://bjkjgh1xn78ag" path="res://Walk5.png" id="6_kntoq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y04va"]
 
-[node name="Sprite2D" type="Sprite2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a2f65"]
+size = Vector2(469.08276, 807.45496)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1jte"]
+size = Vector2(722.1001, 202.97253)
+
+[node name="Sunny" type="Sprite2D" node_paths=PackedStringArray("light_hitbox", "heavy_hitbox")]
+script = ExtResource("1_a2f65")
+light_hitbox = NodePath("CharacterBody2D/light")
+heavy_hitbox = NodePath("CharacterBody2D/Heavy")
+walk_sprites = Array[Texture2D]([ExtResource("2_36fcp"), ExtResource("3_aqpsi"), ExtResource("4_3fxmx"), ExtResource("5_uhrpr"), ExtResource("6_kntoq")])
+
+[node name="Sunny" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-27, -319)
+texture = ExtResource("2_e1jte")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(5, -156)
+scale = Vector2(50, 50)
 shape = SubResource("CapsuleShape2D_y04va")
+
+[node name="Heavy" type="CollisionShape2D" parent="CharacterBody2D"]
+visible = false
+position = Vector2(716, 14.000008)
+rotation = 0.25830874
+shape = SubResource("RectangleShape2D_a2f65")
+
+[node name="light" type="CollisionShape2D" parent="CharacterBody2D"]
+visible = false
+position = Vector2(609.94995, -182)
+shape = SubResource("RectangleShape2D_e1jte")
