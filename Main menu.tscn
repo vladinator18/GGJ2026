@@ -1,26 +1,52 @@
-[gd_scene format=3 uid="uid://bf0ah6k48h2cb"]
+[gd_scene load_steps=4 format=3 uid="uid://bf0ah6k48h2cb"]
 
-[node name="Control" type="Control"]
+[ext_resource type="Script" uid="uid://cddrs422a5ylt" path="res://Menu.gd" id="1_7jlr6"]
+[ext_resource type="Script" uid="uid://bhr6cva5vi4xb" path="res://start.gd" id="2_enwfr"]
+[ext_resource type="Script" uid="uid://dopetfcinu4rt" path="res://settings.gd" id="3_um2lw"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("start_button", "online_button", "local_button", "settings_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_7jlr6")
+start_button = NodePath("Camera2D/Start")
+online_button = NodePath("Camera2D/Online")
+local_button = NodePath("Camera2D/LAN")
+settings_button = NodePath("Camera2D/Settings")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(776, 100)
 
-[node name="MenuBar" type="MenuBar" parent="."]
-layout_mode = 0
-offset_left = 776.0
-offset_top = 100.0
-offset_right = 1050.0
-offset_bottom = 258.0
+[node name="Start" type="Button" parent="Camera2D"]
+offset_left = 282.0
+offset_top = -219.0
+offset_right = 505.0
+offset_bottom = -145.0
+text = "Start
+"
+script = ExtResource("2_enwfr")
 
-[node name="MenuBar2" type="MenuBar" parent="."]
-layout_mode = 0
-offset_left = 737.0
-offset_top = 248.0
-offset_right = 1023.0
-offset_bottom = 385.0
+[node name="Settings" type="Button" parent="Camera2D"]
+offset_left = 285.0
+offset_top = -128.0
+offset_right = 508.0
+offset_bottom = -54.0
+text = "Settings"
+script = ExtResource("3_um2lw")
+
+[node name="Online" type="Button" parent="Camera2D"]
+offset_left = 285.0
+offset_top = -30.0
+offset_right = 508.0
+offset_bottom = 44.0
+text = "Online"
+
+[node name="LAN" type="Button" parent="Camera2D"]
+offset_left = 282.0
+offset_top = 64.0
+offset_right = 505.0
+offset_bottom = 138.0
+text = "LAN"
