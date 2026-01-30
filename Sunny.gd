@@ -55,6 +55,11 @@ extends Sprite2D
 @export var block_anim: String = "block"
 @export var hurt_anim: String = "hurt"
 
+# Attack Sprites
+@export_group("Attack Sprites")
+@export var light_attack_sprites: Array[Texture2D] = []  # 5 images for light attack
+@export var heavy_attack_sprites: Array[Texture2D] = []  # 8 images for heavy attack
+
 # Walk Cycle Animation
 @export_group("Walk Cycle")
 @export var walk_frame_duration: float = 0.1  # Duration to show each image
@@ -263,10 +268,16 @@ func _update_attack_frames(delta: float):
 	
 	if attack_frame_timer >= attack_frame_duration:
 		attack_frame_timer = 0.0
-		current_attack_frame += 1
 		
 		var total_frames = light_punch_frames if current_attack_type == "light" else heavy_punch_frames
 		var peak_frame = 4 if current_attack_type == "light" else 5
+		var attack_sprites = light_attack_sprites if current_attack_type == "light" else heavy_attack_sprites
+		
+		# Update sprite texture
+		if attack_sprites.size() > 0 and current_attack_frame < attack_sprites.size():
+			texture = attack_sprites[current_attack_frame]
+		
+		current_attack_frame += 1
 		
 		# Enable hitbox at peak frame
 		if current_attack_frame == peak_frame:
@@ -301,6 +312,12 @@ func _end_attack():
 	can_move = true
 	current_attack_type = ""
 	current_attack_frame = 0
+	
+	# Reset to idle sprite (first walk sprite)
+	if walk_sprites.size() > 0:
+		texture = walk_sprites[0]
+		walk_sprite_index = 0
+	
 	print("Attack ended")
 
 func _attack(type: String, anim: String, damage: float):
