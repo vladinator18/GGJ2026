@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://coh5vwkxp16v2"]
+[gd_scene format=3 uid="uid://bt3tpk4eoaxg0"]
 
 [ext_resource type="Script" uid="uid://csutim7h7bttv" path="res://Level1/enemy_with_combat.gd" id="1_rg25m"]
 [ext_resource type="Texture2D" uid="uid://ctc74tr0yvj6y" path="res://Sprites/Sunny/IDLE/IDLE1.PNG" id="2_lonoh"]
@@ -20,61 +20,61 @@
 [ext_resource type="Texture2D" uid="uid://cinx42kbbgmmo" path="res://Punch5.png" id="32_ivds1"]
 [ext_resource type="Texture2D" uid="uid://b1jhjqml34vx" path="res://Punch6.png" id="33_so1tv"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_550vc"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_71kw3"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lonoh"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3644o"]
 size = Vector2(1098, 795.75)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kr1t5"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rcdm6"]
 size = Vector2(722.1001, 202.97253)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xjfjv"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2kyym"]
 size = Vector2(469.08276, 807.45496)
 
 [node name="Node2D" type="Sprite2D" unique_id=140807360 node_paths=PackedStringArray("light_hitbox_area", "heavy_hitbox_area")]
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_rg25m")
-light_hitbox_area = NodePath("CharacterBody2D/LightHitbox")
-heavy_hitbox_area = NodePath("CharacterBody2D/HeavyHitbox")
+light_hitbox_area = NodePath("")
+heavy_hitbox_area = NodePath("")
 floor_y_level = 425.0
 auto_detect_boundaries = false
 idle_sprites = Array[Texture2D]([ExtResource("2_lonoh"), ExtResource("3_kr1t5"), ExtResource("4_71kw3")])
 walk_sprites = Array[Texture2D]([ExtResource("5_lc25k"), ExtResource("6_aqpyo"), ExtResource("7_mbyx6"), ExtResource("8_x7a7k"), ExtResource("9_dwib7"), ExtResource("10_buyll"), ExtResource("11_1uomo"), ExtResource("12_0uom6"), ExtResource("13_nba3w")])
 light_attack_sprites = Array[Texture2D]([ExtResource("28_65x2t"), ExtResource("29_pwieo"), ExtResource("30_noumf"), ExtResource("31_5p5nv"), ExtResource("32_ivds1"), ExtResource("33_so1tv")])
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1643041530]
-scale = Vector2(0.1, 0.1)
+[node name="CharacterBody2D2" type="CharacterBody2D" parent="." unique_id=2128318301]
+scale = Vector2(0.099999994, 0.099999994)
 
-[node name="StandingCollison" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1611754013]
+[node name="StandingCollison" type="CollisionShape2D" parent="CharacterBody2D2" unique_id=489966288]
 position = Vector2(5, -156)
 scale = Vector2(0.1, 0.1)
-shape = SubResource("CapsuleShape2D_550vc")
+shape = SubResource("CapsuleShape2D_71kw3")
 
-[node name="CrouchCollision" type="CollisionShape2D" parent="CharacterBody2D" unique_id=4245647]
+[node name="CrouchCollision" type="CollisionShape2D" parent="CharacterBody2D2" unique_id=605138924]
 position = Vector2(-13, 175.875)
 scale = Vector2(0.1, 0.1)
-shape = SubResource("RectangleShape2D_lonoh")
+shape = SubResource("RectangleShape2D_3644o")
 disabled = true
 
-[node name="LightHitbox" type="Area2D" parent="CharacterBody2D" unique_id=1257017155]
+[node name="LightHitbox" type="Area2D" parent="CharacterBody2D2" unique_id=231675808]
 position = Vector2(70, 0)
 scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 2
 
-[node name="light" type="CollisionShape2D" parent="CharacterBody2D/LightHitbox" unique_id=855973615]
+[node name="light" type="CollisionShape2D" parent="CharacterBody2D2/LightHitbox" unique_id=1561704933]
 position = Vector2(539.94995, -182)
 scale = Vector2(0.1, 0.1)
-shape = SubResource("RectangleShape2D_kr1t5")
+shape = SubResource("RectangleShape2D_rcdm6")
 
-[node name="HeavyHitbox" type="Area2D" parent="CharacterBody2D" unique_id=609481313]
+[node name="HeavyHitbox" type="Area2D" parent="CharacterBody2D2" unique_id=207545075]
 position = Vector2(80, 0)
 scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 2
 
-[node name="Heavy" type="CollisionShape2D" parent="CharacterBody2D/HeavyHitbox" unique_id=815946040]
+[node name="Heavy" type="CollisionShape2D" parent="CharacterBody2D2/HeavyHitbox" unique_id=1353324252]
 position = Vector2(636, 14.000008)
 rotation = 0.25830874
 scale = Vector2(0.1, 0.1)
-shape = SubResource("RectangleShape2D_xjfjv")
+shape = SubResource("RectangleShape2D_2kyym")
