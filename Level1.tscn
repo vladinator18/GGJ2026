@@ -1,27 +1,54 @@
 [gd_scene format=3 uid="uid://8sk1cqtsna3d"]
 
+[ext_resource type="Script" uid="uid://cnl3dq4xpm567" path="res://level1.gd" id="1_5g1s2"]
 [ext_resource type="Texture2D" uid="uid://v0rtefynlfx2" path="res://IMG_1578.PNG" id="1_mc20k"]
+[ext_resource type="Script" uid="uid://bify6jvvrupe8" path="res://Camera1.gd" id="2_aiv1b"]
 [ext_resource type="PackedScene" uid="uid://doqlgiwevo3sl" path="res://SpriteA.tscn" id="2_cove1"]
+[ext_resource type="Script" uid="uid://jsq8bps7rsm5" path="res://border.gd" id="2_wapi5"]
 [ext_resource type="Texture2D" uid="uid://bm1fjts1yjkhw" path="res://Punch1.png" id="3_5py54"]
 [ext_resource type="Texture2D" uid="uid://dc780f05nwvn0" path="res://Punch3.png" id="5_5g1s2"]
-[ext_resource type="Texture2D" uid="uid://m0egxxowx0rb" path="res://Walk2.png" id="5_5py54"]
+[ext_resource type="Texture2D" uid="uid://clkw5wj88yphu" path="res://Walk2.PNG" id="5_5py54"]
 [ext_resource type="Texture2D" uid="uid://bn338pw01s3ba" path="res://Punch4.png" id="6_aiv1b"]
-[ext_resource type="Texture2D" uid="uid://bjkjgh1xn78ag" path="res://Walk5.png" id="8_1bjei"]
+[ext_resource type="Texture2D" uid="uid://dpseclhhl10wu" path="res://Walk5.PNG" id="8_1bjei"]
 [ext_resource type="Texture2D" uid="uid://b1jhjqml34vx" path="res://Punch6.png" id="8_a2cb0"]
-[ext_resource type="Texture2D" uid="uid://cqtsulk1h5eux" path="res://Walk1.png" id="9_3gjqj"]
+[ext_resource type="Texture2D" uid="uid://b1cve5pt1uvqc" path="res://Walk1.PNG" id="9_3gjqj"]
+[ext_resource type="PackedScene" uid="uid://coh5vwkxp16v2" path="res://Enmy.tscn" id="10_1bjei"]
 
 [node name="Node2D" type="Node2D" unique_id=287971039]
+position = Vector2(4905, 4018)
+script = ExtResource("1_5g1s2")
+map_width = 11210.0
+map_height = 6156.0
+floor_height = 5656.0
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=47001588]
-position = Vector2(-90, 92)
+[node name="Node2D2" type="Node2D" parent="." unique_id=1063712574]
+
+[node name="Border" type="Node2D" parent="." unique_id=1590500473]
+script = ExtResource("2_wapi5")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=47001588 node_paths=PackedStringArray("target")]
+position = Vector2(2050, 1046)
+scale = Vector2(0.1, 0.1)
 zoom = Vector2(0.1, 0.1)
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+script = ExtResource("2_aiv1b")
+target = NodePath("../Sunny")
+camera_zoom = Vector2(0.1, 0.1)
 
 [node name="Img1578" type="Sprite2D" parent="." unique_id=1808675923]
-position = Vector2(-763, -470.00003)
-scale = Vector2(5, 5)
+position = Vector2(2013, 814.00006)
+scale = Vector2(4.2690153, 5.7740736)
 texture = ExtResource("1_mc20k")
 
 [node name="Sunny" parent="." unique_id=56909412 instance=ExtResource("2_cove1")]
-position = Vector2(-5205, 1315)
-walk_frame_duration = 0.05
+position = Vector2(-1741, 1328)
+jump_sprites = Array[Texture2D]([])
+crouch_down_sprites = Array[Texture2D]([])
+get_up_sprites = Array[Texture2D]([])
 light_attack_sprites = Array[Texture2D]([ExtResource("9_3gjqj"), ExtResource("3_5py54"), ExtResource("5_5py54"), ExtResource("5_5g1s2"), ExtResource("6_aiv1b"), ExtResource("8_1bjei"), ExtResource("8_a2cb0"), ExtResource("3_5py54")])
+
+[node name="Node2D" parent="." unique_id=1826118434 instance=ExtResource("10_1bjei")]
+position = Vector2(4522, 1426)
+walk_sprites = Array[Texture2D]([])
+light_attack_sprites = Array[Texture2D]([])

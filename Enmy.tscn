@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://coh5vwkxp16v2"]
+
+[ext_resource type="Script" uid="uid://csutim7h7bttv" path="res://Level1/enemy_with_combat.gd" id="1_rg25m"]
+[ext_resource type="Texture2D" uid="uid://ctc74tr0yvj6y" path="res://Sprites/Sunny/IDLE/IDLE1.PNG" id="2_lonoh"]
+[ext_resource type="Texture2D" uid="uid://cc1u0mytxxuu3" path="res://Sprites/Sunny/IDLE/IDLE2.PNG" id="3_kr1t5"]
+[ext_resource type="Texture2D" uid="uid://ckewx2dnnbjla" path="res://Sprites/Sunny/IDLE/IDLE3.PNG" id="4_71kw3"]
+[ext_resource type="Texture2D" uid="uid://b1cve5pt1uvqc" path="res://Walk1.PNG" id="5_lc25k"]
+[ext_resource type="Texture2D" uid="uid://clkw5wj88yphu" path="res://Walk2.PNG" id="6_aqpyo"]
+[ext_resource type="Texture2D" uid="uid://c821wwc7wqulu" path="res://Walk3.PNG" id="7_mbyx6"]
+[ext_resource type="Texture2D" uid="uid://cx2mn5xnj6b81" path="res://Walk4.PNG" id="8_x7a7k"]
+[ext_resource type="Texture2D" uid="uid://dpseclhhl10wu" path="res://Walk5.PNG" id="9_dwib7"]
+[ext_resource type="Texture2D" uid="uid://ldtg188ko1gt" path="res://Walk6.PNG" id="10_buyll"]
+[ext_resource type="Texture2D" uid="uid://732r3ll402vc" path="res://Walk7.PNG" id="11_1uomo"]
+[ext_resource type="Texture2D" uid="uid://doajorfdinjde" path="res://Walk8.PNG" id="12_0uom6"]
+[ext_resource type="Texture2D" uid="uid://csrs1hikim70l" path="res://Walk9.PNG" id="13_nba3w"]
+[ext_resource type="Texture2D" uid="uid://bm1fjts1yjkhw" path="res://Punch1.png" id="28_65x2t"]
+[ext_resource type="Texture2D" uid="uid://bo3dqpnujfbgf" path="res://Punch2.png" id="29_pwieo"]
+[ext_resource type="Texture2D" uid="uid://dc780f05nwvn0" path="res://Punch3.png" id="30_noumf"]
+[ext_resource type="Texture2D" uid="uid://bn338pw01s3ba" path="res://Punch4.png" id="31_5p5nv"]
+[ext_resource type="Texture2D" uid="uid://cinx42kbbgmmo" path="res://Punch5.png" id="32_ivds1"]
+[ext_resource type="Texture2D" uid="uid://b1jhjqml34vx" path="res://Punch6.png" id="33_so1tv"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_550vc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lonoh"]
+size = Vector2(1098, 795.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kr1t5"]
+size = Vector2(722.1001, 202.97253)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xjfjv"]
+size = Vector2(469.08276, 807.45496)
+
+[node name="Node2D" type="Sprite2D" unique_id=140807360 node_paths=PackedStringArray("light_hitbox_area", "heavy_hitbox_area")]
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_rg25m")
+light_hitbox_area = NodePath("CharacterBody2D/LightHitbox")
+heavy_hitbox_area = NodePath("CharacterBody2D/HeavyHitbox")
+floor_y_level = 425.0
+auto_detect_boundaries = false
+idle_sprites = Array[Texture2D]([ExtResource("2_lonoh"), ExtResource("3_kr1t5"), ExtResource("4_71kw3")])
+walk_sprites = Array[Texture2D]([ExtResource("5_lc25k"), ExtResource("6_aqpyo"), ExtResource("7_mbyx6"), ExtResource("8_x7a7k"), ExtResource("9_dwib7"), ExtResource("10_buyll"), ExtResource("11_1uomo"), ExtResource("12_0uom6"), ExtResource("13_nba3w")])
+light_attack_sprites = Array[Texture2D]([ExtResource("28_65x2t"), ExtResource("29_pwieo"), ExtResource("30_noumf"), ExtResource("31_5p5nv"), ExtResource("32_ivds1"), ExtResource("33_so1tv")])
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1643041530]
+scale = Vector2(0.1, 0.1)
+
+[node name="StandingCollison" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1611754013]
+position = Vector2(5, -156)
+scale = Vector2(0.1, 0.1)
+shape = SubResource("CapsuleShape2D_550vc")
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="CharacterBody2D" unique_id=4245647]
+position = Vector2(-13, 175.875)
+scale = Vector2(0.1, 0.1)
+shape = SubResource("RectangleShape2D_lonoh")
+disabled = true
+
+[node name="LightHitbox" type="Area2D" parent="CharacterBody2D" unique_id=1257017155]
+position = Vector2(70, 0)
+scale = Vector2(0.1, 0.1)
+collision_layer = 4
+collision_mask = 2
+
+[node name="light" type="CollisionShape2D" parent="CharacterBody2D/LightHitbox" unique_id=855973615]
+position = Vector2(539.94995, -182)
+scale = Vector2(0.1, 0.1)
+shape = SubResource("RectangleShape2D_kr1t5")
+
+[node name="HeavyHitbox" type="Area2D" parent="CharacterBody2D" unique_id=609481313]
+position = Vector2(80, 0)
+scale = Vector2(0.1, 0.1)
+collision_layer = 4
+collision_mask = 2
+
+[node name="Heavy" type="CollisionShape2D" parent="CharacterBody2D/HeavyHitbox" unique_id=815946040]
+position = Vector2(636, 14.000008)
+rotation = 0.25830874
+scale = Vector2(0.1, 0.1)
+shape = SubResource("RectangleShape2D_xjfjv")

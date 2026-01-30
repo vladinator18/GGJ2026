@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://by54k3tpkwtw5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3trp"]
+size = Vector2(60, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ig8ae"]
+size = Vector2(60, 60)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_diltj"]
+radius = 500.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uisck"]
+size = Vector2(80, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1s7ii"]
+size = Vector2(100, 80)
+
+[node name="Node2D" type="Node2D" unique_id=1432716694]
+
+[node name="Enemy" type="Sprite2D" parent="." unique_id=2095519067]
+position = Vector2(9000, 5656)
+
+[node name="StandingCollision" type="CollisionShape2D" parent="Enemy" unique_id=1372324423]
+shape = SubResource("RectangleShape2D_r3trp")
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="Enemy" unique_id=1613294982]
+position = Vector2(0, 30)
+shape = SubResource("RectangleShape2D_ig8ae")
+disabled = true
+
+[node name="DetectionArea" type="Area2D" parent="Enemy" unique_id=380834538]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/DetectionArea" unique_id=1367150217]
+shape = SubResource("CircleShape2D_diltj")
+
+[node name="LightHitbox" type="Area2D" parent="Enemy" unique_id=200644239]
+position = Vector2(70, 0)
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/LightHitbox" unique_id=1327544800]
+shape = SubResource("RectangleShape2D_uisck")
+disabled = true
+
+[node name="HeavyHitbox" type="Area2D" parent="Enemy" unique_id=719068678]
+position = Vector2(80, 0)
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/HeavyHitbox" unique_id=1862535252]
+shape = SubResource("RectangleShape2D_1s7ii")
+disabled = true
+
+[connection signal="area_entered" from="Enemy/LightHitbox" to="Enemy" method="_on_light_hitbox_hit_area"]
+[connection signal="body_entered" from="Enemy/LightHitbox" to="Enemy" method="_on_light_hitbox_hit"]
+[connection signal="area_entered" from="Enemy/HeavyHitbox" to="Enemy" method="_on_heavy_hitbox_hit_area"]
+[connection signal="body_entered" from="Enemy/HeavyHitbox" to="Enemy" method="_on_heavy_hitbox_hit"]

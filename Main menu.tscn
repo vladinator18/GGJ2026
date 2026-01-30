@@ -28,7 +28,7 @@ offset_bottom = -81.0
 text = "Start
 "
 script = ExtResource("2_enwfr")
-character_select_scene = "uid://8sk1cqtsna3d"
+character_select_scene = "uid://dk7y72xlflxvb"
 
 [node name="Settings" type="Button" parent="Camera2D" unique_id=1528933426]
 offset_left = 261.0
