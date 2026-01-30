@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c12qm5ygmcngc"]
+[gd_scene load_steps=16 format=3 uid="uid://c12qm5ygmcngc"]
 
 [ext_resource type="Script" uid="uid://cogr45tv7d5iu" path="res://Sunny.gd" id="1_a2f65"]
 [ext_resource type="Texture2D" uid="uid://cqtsulk1h5eux" path="res://Walk1.png" id="2_36fcp"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://bo3dqpnujfbgf" path="res://Punch2.png" id="3_2tsu6"]
 [ext_resource type="Texture2D" uid="uid://m0egxxowx0rb" path="res://Walk2.png" id="3_aqpsi"]
 [ext_resource type="Texture2D" uid="uid://ce2u1xpl23uou" path="res://Walk3.png" id="4_3fxmx"]
-[ext_resource type="Texture2D" uid="uid://dc780f05nwvn0" path="res://Punch3.png" id="4_s823a"]
 [ext_resource type="Texture2D" uid="uid://bn338pw01s3ba" path="res://Punch4.png" id="5_cuxp8"]
 [ext_resource type="Texture2D" uid="uid://b1ccn83ntyxr" path="res://Walk4.png" id="5_uhrpr"]
 [ext_resource type="Texture2D" uid="uid://bjkjgh1xn78ag" path="res://Walk5.png" id="6_kntoq"]
@@ -26,8 +25,8 @@ size = Vector2(722.1001, 202.97253)
 script = ExtResource("1_a2f65")
 light_hitbox = NodePath("CharacterBody2D/light")
 heavy_hitbox = NodePath("CharacterBody2D/Heavy")
-light_attack_sprites = Array[Texture2D]([ExtResource("2_xyie2"), ExtResource("3_2tsu6"), ExtResource("4_s823a"), ExtResource("5_cuxp8"), ExtResource("6_ullyt"), ExtResource("7_m316d")])
-walk_frame_duration = 0.0
+light_attack_sprites = Array[Texture2D]([ExtResource("2_xyie2"), ExtResource("3_aqpsi"), ExtResource("3_2tsu6"), ExtResource("3_aqpsi"), ExtResource("4_3fxmx"), ExtResource("4_3fxmx"), ExtResource("5_cuxp8"), ExtResource("5_uhrpr"), ExtResource("6_kntoq"), ExtResource("6_ullyt"), ExtResource("7_m316d"), ExtResource("2_36fcp")])
+walk_frame_duration = 0.05
 walk_sprites = Array[Texture2D]([ExtResource("2_36fcp"), ExtResource("3_aqpsi"), ExtResource("4_3fxmx"), ExtResource("5_uhrpr"), ExtResource("6_kntoq")])
 
 [node name="Sunny" type="Sprite2D" parent="."]
