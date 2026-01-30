@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://c7bocsxn5cipy"]
-
-[ext_resource type="PackedScene" uid="uid://cr7rdghiljv2p" path="res://SpriteA.tscn" id="2_cove1"]
-
-[node name="Node2D" type="Node2D" unique_id=110930006]
-
-[node name="Sunny" parent="." unique_id=1971242375 instance=ExtResource("2_cove1")]
-position = Vector2(457, 749)

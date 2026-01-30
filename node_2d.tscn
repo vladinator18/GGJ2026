@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp4tdve72ofbp"]
+
+[ext_resource type="PackedScene" uid="uid://c12qm5ygmcngc" path="res://SpriteA.tscn" id="1_wtcfe"]
+
+[node name="MAP" type="Node2D"]
+position = Vector2(0, -1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.1, 0.1)
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(150, 19)
+
+[node name="Sunny" parent="." instance=ExtResource("1_wtcfe")]
+position = Vector2(-2207, 346)

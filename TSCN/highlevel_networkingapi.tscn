@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://c45q2okruaipe"]
-
-[ext_resource type="Script" path="res://highlevel_networkingapi.gd" id="1_wsohx"]
-
-[node name="HIGHLEVEL NETWORKINGAPI" type="Node2D" unique_id=641640155]
-script = ExtResource("1_wsohx")

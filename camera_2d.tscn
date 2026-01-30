@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dj5enhkusvtj4"]
+
+[ext_resource type="Texture2D" uid="uid://bj18dq2x32lhs" path="res://Untitled_Artwork.png" id="1_u0e42"]
+
+[node name="Camera2D" type="Camera2D"]
+position = Vector2(586, 329)
+zoom = Vector2(0.1, 0.1)
+
+[node name="UntitledArtwork" type="Sprite2D" parent="."]
+position = Vector2(-3508, 626)
+texture = ExtResource("1_u0e42")
