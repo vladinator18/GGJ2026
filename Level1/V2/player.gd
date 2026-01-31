@@ -67,22 +67,38 @@ func _ready():
 	print("[%s] Player _ready() called" % name)
 	current_health = max_health
 	
+	# Get sprite reference
+	if has_node("Sprite"):
+		sprite = $Sprite
+	elif has_node("Sprite2D"):
+		sprite = $Sprite2D
+	
 	# Get hitbox references
 	light_hitbox = $Hitboxes/LightHitbox
 	heavy_hitbox = $Hitboxes/HeavyHitbox
 	hurtbox = $Hurtbox
 	
-	print("[%s] Light hitbox: %s | Heavy hitbox: %s | Hurtbox: %s" % [name, light_hitbox != null, heavy_hitbox != null, hurtbox != null])
+	print("[%s] Sprite: %s | Light hitbox: %s | Heavy hitbox: %s | Hurtbox: %s" % [name, sprite != null, light_hitbox != null, heavy_hitbox != null, hurtbox != null])
 	
 	# Initialize hitbox metadata and disable monitoring (but keep monitorable true)
 	if light_hitbox:
 		light_hitbox.monitoring = false  # Don't detect others
-		light_hitbox.set_meta("damage", 0.0)
+		light_hitbox.visible = false  # Hide by default
+		light_hitbox.set_meta("damage", 10.0)
 		light_hitbox.set_meta("is_heavy", false)
+		# Disable collision detection when inactive
+		for child in light_hitbox.get_children():
+			if child is CollisionShape2D:
+				child.disabled = true
 	if heavy_hitbox:
 		heavy_hitbox.monitoring = false  # Don't detect others
-		heavy_hitbox.set_meta("damage", 0.0)
+		heavy_hitbox.visible = false  # Hide by default
+		heavy_hitbox.set_meta("damage", 10.0)
 		heavy_hitbox.set_meta("is_heavy", false)
+		# Disable collision detection when inactive
+		for child in heavy_hitbox.get_children():
+			if child is CollisionShape2D:
+				child.disabled = true
 	
 	# Connect hitbox signals
 	if light_hitbox:
@@ -215,11 +231,21 @@ func perform_light_attack():
 	await get_tree().create_timer(0.1).timeout
 	if light_hitbox:
 		light_hitbox.monitoring = true
+		light_hitbox.visible = true
+		# Enable collision shape
+		for child in light_hitbox.get_children():
+			if child is CollisionShape2D:
+				child.disabled = false
 		print("[%s] Light hitbox ENABLED" % name)
 	
 	await get_tree().create_timer(0.15).timeout
 	if light_hitbox:
 		light_hitbox.monitoring = false
+		light_hitbox.visible = false
+		# Disable collision shape
+		for child in light_hitbox.get_children():
+			if child is CollisionShape2D:
+				child.disabled = true
 		print("[%s] Light hitbox DISABLED" % name)
 		# Clear damage after attack
 		light_hitbox.set_meta("damage", 0.0)
@@ -244,11 +270,21 @@ func perform_heavy_attack():
 	await get_tree().create_timer(0.2).timeout
 	if heavy_hitbox:
 		heavy_hitbox.monitoring = true
+		heavy_hitbox.visible = true
+		# Enable collision shape
+		for child in heavy_hitbox.get_children():
+			if child is CollisionShape2D:
+				child.disabled = false
 		print("[%s] Heavy hitbox ENABLED" % name)
 	
 	await get_tree().create_timer(0.2).timeout
 	if heavy_hitbox:
 		heavy_hitbox.monitoring = false
+		heavy_hitbox.visible = false
+		# Disable collision shape
+		for child in heavy_hitbox.get_children():
+			if child is CollisionShape2D:
+				child.disabled = true
 		print("[%s] Heavy hitbox DISABLED" % name)
 		# Clear damage after attack
 		heavy_hitbox.set_meta("damage", 0.0)
@@ -304,7 +340,7 @@ func _on_hurtbox_area_entered(area: Area2D):
 		var is_heavy = area.get_meta("is_heavy")
 		
 		# Ignore if damage is 0 (not an active attack)
-		if damage <= 0:
+		if damage <= 10:
 			print("[%s] Ignoring inactive hitbox (damage = 0)" % name)
 			return
 		
@@ -403,7 +439,10 @@ func end_crouch():
 
 func flip_sprite():
 	facing_right = not facing_right
-	sprite.flip_h = not sprite.flip_h
+	
+	# Flip sprite if it exists
+	if sprite:
+		sprite.flip_h = not sprite.flip_h
 	
 	# Flip hitbox positions
 	if light_hitbox:
@@ -455,7 +494,7 @@ func reset():
 	is_hit_stunned = false
 	is_knockdown = false
 	combo_count = 0
-	current_attack_damage = 0.0
+	current_attack_damage = 10.0
 	current_attack_is_heavy = false
 	velocity = Vector2.ZERO
 	position.y = floor_y_level - 46

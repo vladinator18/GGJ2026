@@ -37,7 +37,7 @@ disabled = true
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1820254876]
 collision_layer = 2
-collision_mask = 4
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=484743466]
 position = Vector2(0, -46)
@@ -47,7 +47,8 @@ shape = SubResource("RectangleShape2D_hurtbox")
 
 [node name="LightHitbox" type="Area2D" parent="Hitboxes" unique_id=1951586581]
 position = Vector2(-55, -46)
-collision_layer = 4
+collision_layer = 8
+collision_mask = 2
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/LightHitbox" unique_id=574597978]
@@ -56,7 +57,8 @@ debug_color = Color(0.956863, 0.270588, 0.564706, 0.419608)
 
 [node name="HeavyHitbox" type="Area2D" parent="Hitboxes" unique_id=1674165042]
 position = Vector2(-65, -46)
-collision_layer = 4
+collision_layer = 8
+collision_mask = 2
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/HeavyHitbox" unique_id=507593448]

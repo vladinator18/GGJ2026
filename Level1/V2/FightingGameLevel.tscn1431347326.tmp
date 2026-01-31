@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://d0u5t07nutlsf" path="res://Level1/V2/player_health_bar.gd" id="3_uc240"]
 [ext_resource type="PackedScene" uid="uid://bhbmy11jinbbw" path="res://Level1/enemy.tscn" id="4"]
 [ext_resource type="Script" uid="uid://b1voygn5mv2g2" path="res://Level1/V2/enemy_health_bar.gd" id="4_afgo7"]
-[ext_resource type="Script" uid="uid://0ekn6wvaesph" path="res://Level1/V2/node.gd" id="8_2xshc"]
 
 [node name="FightingGameLevel" type="Node2D" unique_id=2039576482]
 
@@ -59,7 +58,7 @@ value = 100.0
 script = ExtResource("3_uc240")
 health_label = NodePath("../PlayerHealthLabel")
 character_name_label = NodePath("../../../DebugLabel")
-tracked_character = NodePath("../../../../../Enemy")
+tracked_character = NodePath("../../../../../Player")
 
 [node name="PlayerHealthLabel" type="Label" parent="UI/UIContainer/TopBar/PlayerPanel" unique_id=1954627900]
 layout_mode = 2
@@ -178,11 +177,6 @@ script = ExtResource("3_afgo7")
 position = Vector2(903, 500)
 
 [node name="Player" parent="." unique_id=1186710696 instance=ExtResource("3")]
-
-[node name="Node" type="Node" parent="Player" unique_id=1603640892 node_paths=PackedStringArray("player", "enemy")]
-script = ExtResource("8_2xshc")
-player = NodePath("..")
-enemy = NodePath("../../Enemy")
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=717513704]
 position = Vector2(576, 450)

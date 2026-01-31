@@ -1,8 +1,7 @@
 extends ProgressBar
 
 
-# References to UI elements
-@export var health_bar: ProgressBar
+# References to UI elements (optional - can be null if you just want a simple bar)
 @export var health_label: Label
 @export var character_name_label: Label
 
@@ -37,10 +36,9 @@ func connect_to_character(character: CharacterBody2D):
 	if tracked_character.has_method("get"):
 		max_health = tracked_character.get("max_health")
 	
-	# Set initial health bar
-	if health_bar:
-		health_bar.max_value = max_health
-		health_bar.value = max_health
+	# Set initial health bar (this ProgressBar itself)
+	max_value = max_health
+	value = max_health
 	
 	# Connect to health_changed signal
 	if tracked_character.has_signal("health_changed"):
@@ -56,18 +54,17 @@ func _on_health_changed(new_health: float):
 	update_health_display(new_health)
 
 func update_health_display(health: float):
-	# Update progress bar
-	if health_bar:
-		health_bar.value = health
-		
-		# Update color based on health percentage
-		var health_percent = health / max_health
-		if health_percent > 0.6:
-			health_bar.modulate = health_high_color
-		elif health_percent > 0.3:
-			health_bar.modulate = health_mid_color
-		else:
-			health_bar.modulate = health_low_color
+	# Update progress bar (this ProgressBar itself)
+	value = health
+	
+	# Update color based on health percentage
+	var health_percent = health / max_health
+	if health_percent > 0.6:
+		modulate = health_high_color
+	elif health_percent > 0.3:
+		modulate = health_mid_color
+	else:
+		modulate = health_low_color
 	
 	# Update label
 	if health_label:

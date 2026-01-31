@@ -33,9 +33,11 @@ func _ready():
 func connect_to_character(character: CharacterBody2D):
 	tracked_character = character
 	
-	# Get max health
-	if tracked_character.has_method("get"):
-		max_health = tracked_character.get("max_health")
+	# Get max health - fixed version
+	if "max_health" in tracked_character:
+		max_health = tracked_character.max_health
+	else:
+		print("[HealthBar] WARNING: tracked_character doesn't have max_health property, using default: %f" % max_health)
 	
 	# Set initial health bar
 	if health_bar:
@@ -49,19 +51,28 @@ func connect_to_character(character: CharacterBody2D):
 	else:
 		print("[HealthBar] WARNING: %s doesn't have health_changed signal!" % tracked_character.name)
 	
-	# Update display
-	update_health_display(max_health)
+	# Get current health and update display
+	var current_health = max_health
+	if "current_health" in tracked_character:
+		current_health = tracked_character.current_health
+	
+	update_health_display(current_health)
 
 func _on_health_changed(new_health: float):
 	update_health_display(new_health)
 
 func update_health_display(health: float):
+	# Validate input
+	if health == null:
+		print("[HealthBar] ERROR: Received null health value!")
+		return
+	
 	# Update progress bar
 	if health_bar:
 		health_bar.value = health
 		
 		# Update color based on health percentage
-		var health_percent = health / max_health
+		var health_percent = health / max_health if max_health > 0 else 0
 		if health_percent > 0.6:
 			health_bar.modulate = health_high_color
 		elif health_percent > 0.3:
@@ -74,6 +85,6 @@ func update_health_display(health: float):
 		health_label.text = "%d / %d" % [int(health), int(max_health)]
 
 func reset():
-	if tracked_character and tracked_character.has_method("get"):
-		var current_health = tracked_character.get("current_health")
+	if tracked_character and "current_health" in tracked_character:
+		var current_health = tracked_character.current_health
 		update_health_display(current_health)
