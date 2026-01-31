@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dvpakf6pvyfc" path="res://Level1/V2/camera_controller.gd" id="1_4bbh4"]
 [ext_resource type="Script" uid="uid://ce65mq7otfclh" path="res://Level1/V2/game_manager.gd" id="2_uc240"]
-[ext_resource type="PackedScene" uid="uid://doqlgiwevo3sl" path="res://SpriteA.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://doqlgiwevo3sl" path="res://Level1/V2/Player.tscn" id="3"]
 [ext_resource type="Script" uid="uid://bn6rgo748a0og" path="res://Level1/V2/diagnostic.gd" id="3_afgo7"]
 [ext_resource type="Script" uid="uid://d0u5t07nutlsf" path="res://Level1/V2/player_health_bar.gd" id="3_uc240"]
-[ext_resource type="PackedScene" uid="uid://bhbmy11jinbbw" path="res://Level1/enemy.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bhbmy11jinbbw" path="res://Level1/V2/Enemy.tscn" id="4"]
 [ext_resource type="Script" uid="uid://b1voygn5mv2g2" path="res://Level1/V2/enemy_health_bar.gd" id="4_afgo7"]
 
 [node name="FightingGameLevel" type="Node2D" unique_id=2039576482]
