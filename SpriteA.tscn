@@ -1,79 +1,85 @@
 [gd_scene format=3 uid="uid://doqlgiwevo3sl"]
 
-[ext_resource type="Script" uid="uid://cogr45tv7d5iu" path="res://Sunny.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://ctc74tr0yvj6y" path="res://Sprites/Sunny/IDLE/IDLE1.PNG" id="2"]
-[ext_resource type="Texture2D" uid="uid://b1cve5pt1uvqc" path="res://Walk1.PNG" id="3"]
-[ext_resource type="Texture2D" uid="uid://c821wwc7wqulu" path="res://Walk3.PNG" id="4"]
-[ext_resource type="Texture2D" uid="uid://cx2mn5xnj6b81" path="res://Walk4.PNG" id="5"]
-[ext_resource type="Texture2D" uid="uid://doajorfdinjde" path="res://Walk8.PNG" id="6"]
-[ext_resource type="Texture2D" uid="uid://i27ta6mqea6f" path="res://Sprites/Sunny/IDLE/IDLE4.PNG" id="7"]
-[ext_resource type="Texture2D" uid="uid://p02r8sfc0350" path="res://Sprites/Sunny/Jump/Jump1.PNG" id="8"]
-[ext_resource type="Texture2D" uid="uid://bpgn0k2ocpwfp" path="res://Crouch/Crouch1.PNG" id="9"]
-[ext_resource type="Texture2D" uid="uid://b1jhjqml34vx" path="res://Punch6.png" id="10"]
+[ext_resource type="Script" uid="uid://cogr45tv7d5iu" path="res://Sunny.gd" id="1_a2f65"]
+[ext_resource type="Texture2D" uid="uid://ctc74tr0yvj6y" path="res://Sprites/Sunny/IDLE/IDLE1.PNG" id="2_kaoov"]
+[ext_resource type="Texture2D" uid="uid://bo3dqpnujfbgf" path="res://Punch2.png" id="3_2tsu6"]
+[ext_resource type="Texture2D" uid="uid://clkw5wj88yphu" path="res://Walk2.PNG" id="3_aqpsi"]
+[ext_resource type="Texture2D" uid="uid://cc1u0mytxxuu3" path="res://Sprites/Sunny/IDLE/IDLE2.PNG" id="3_fubpg"]
+[ext_resource type="Texture2D" uid="uid://c821wwc7wqulu" path="res://Walk3.PNG" id="4_3fxmx"]
+[ext_resource type="Texture2D" uid="uid://dc780f05nwvn0" path="res://Punch3.png" id="4_s823a"]
+[ext_resource type="Texture2D" uid="uid://ckewx2dnnbjla" path="res://Sprites/Sunny/IDLE/IDLE3.PNG" id="4_vt2eq"]
+[ext_resource type="Texture2D" uid="uid://bn338pw01s3ba" path="res://Punch4.png" id="5_cuxp8"]
+[ext_resource type="Texture2D" uid="uid://i27ta6mqea6f" path="res://Sprites/Sunny/IDLE/IDLE4.PNG" id="5_qxntr"]
+[ext_resource type="Texture2D" uid="uid://cx2mn5xnj6b81" path="res://Walk4.PNG" id="5_uhrpr"]
+[ext_resource type="Texture2D" uid="uid://dpseclhhl10wu" path="res://Walk5.PNG" id="6_kntoq"]
+[ext_resource type="Texture2D" uid="uid://dbw8c113bhw7b" path="res://Sprites/Sunny/IDLE/IDLE5.PNG" id="6_ttglw"]
+[ext_resource type="Texture2D" uid="uid://cinx42kbbgmmo" path="res://Punch5.png" id="6_ullyt"]
+[ext_resource type="Texture2D" uid="uid://ldtg188ko1gt" path="res://Walk6.PNG" id="7_cuxp8"]
+[ext_resource type="Texture2D" uid="uid://b1jhjqml34vx" path="res://Punch6.png" id="7_m316d"]
+[ext_resource type="Texture2D" uid="uid://732r3ll402vc" path="res://Walk7.PNG" id="13_2tsu6"]
+[ext_resource type="Texture2D" uid="uid://doajorfdinjde" path="res://Walk8.PNG" id="14_s823a"]
+[ext_resource type="Texture2D" uid="uid://b1cve5pt1uvqc" path="res://Walk1.PNG" id="16_m316d"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_crouch"]
-size = Vector2(52, 51)
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_psxhv"]
+load_path = "res://.godot/imported/Punch1.png-2ba4d7eb6466340b1fddc2e970ad23f6.ctex"
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_standing"]
-radius = 25.0
-height = 92.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y04va"]
+radius = 2500.0
+height = 9200.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_light_hitbox"]
-size = Vector2(60, 35)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_psxhv"]
+size = Vector2(5200.001, 5100.002)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_heavy_hitbox"]
-size = Vector2(80, 50)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1jte"]
+size = Vector2(59999.996, 14281.483)
 
-[node name="SpriteA" type="CharacterBody2D" unique_id=1203416732 node_paths=PackedStringArray("sprite", "light_hitbox", "heavy_hitbox", "standing_collision", "crouch_collision")]
-script = ExtResource("1")
-idle_sprites = Array[Texture2D]([ExtResource("2")])
-walk_sprites = Array[Texture2D]([ExtResource("3"), ExtResource("6"), ExtResource("4"), ExtResource("5")])
-jump_sprites = Array[Texture2D]([ExtResource("8")])
-get_up_sprites = Array[Texture2D]([ExtResource("9")])
-taunt_sprites = Array[Texture2D]([ExtResource("7")])
-light_attack_sprites = Array[Texture2D]([ExtResource("10")])
-sprite = NodePath("Sprite")
-light_hitbox = NodePath("Hitboxes/LightHitbox")
-heavy_hitbox = NodePath("Hitboxes/HeavyHitbox")
-standing_collision = NodePath("StandingCollision")
-crouch_collision = NodePath("CrouchCollision")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a2f65"]
+size = Vector2(45795.61, 49272.375)
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=854657126]
-position = Vector2(1.9999999, -62.999996)
+[node name="Sunny" type="Sprite2D" unique_id=120228279 node_paths=PackedStringArray("light_hitbox_area", "heavy_hitbox_area")]
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("2")
-offset = Vector2(0, -46)
+script = ExtResource("1_a2f65")
+idle_sprites = Array[Texture2D]([ExtResource("2_kaoov"), ExtResource("2_kaoov"), ExtResource("3_fubpg"), ExtResource("3_fubpg"), ExtResource("4_vt2eq"), ExtResource("4_vt2eq"), ExtResource("5_qxntr"), ExtResource("5_qxntr"), ExtResource("6_ttglw"), ExtResource("6_ttglw"), null])
+walk_sprites = Array[Texture2D]([ExtResource("16_m316d"), ExtResource("3_aqpsi"), ExtResource("4_3fxmx"), ExtResource("5_uhrpr"), ExtResource("6_kntoq"), ExtResource("7_cuxp8"), ExtResource("13_2tsu6"), ExtResource("14_s823a")])
+light_attack_sprites = Array[Texture2D]([SubResource("CompressedTexture2D_psxhv"), ExtResource("3_2tsu6"), ExtResource("4_s823a"), ExtResource("5_cuxp8"), ExtResource("6_ullyt"), ExtResource("7_m316d"), ExtResource("16_m316d")])
+light_hitbox_area = NodePath("CharacterBody2D/LightHitbox")
+heavy_hitbox_area = NodePath("CharacterBody2D/HeavyHitbox")
 
-[node name="CrouchCollision" type="CollisionShape2D" parent="." unique_id=1689263087]
-position = Vector2(0, -25)
-shape = SubResource("RectangleShape2D_crouch")
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1192398969]
+
+[node name="StandingCollison" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1602020203]
+position = Vector2(-9.536743e-07, -20.000002)
+scale = Vector2(0.1, 0.1)
+shape = SubResource("CapsuleShape2D_y04va")
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1662933754]
+position = Vector2(1.430511e-05, 304.9999)
+scale = Vector2(0.09999995, 0.09999995)
+shape = SubResource("RectangleShape2D_psxhv")
 disabled = true
 
-[node name="StandingCollision" type="CollisionShape2D" parent="." unique_id=627299057]
-position = Vector2(0, -46)
-shape = SubResource("CapsuleShape2D_standing")
-
-[node name="CollisionShapes" type="Node2D" parent="." unique_id=863365293]
-
-[node name="Hitboxes" type="Node2D" parent="." unique_id=2059233750]
-
-[node name="LightHitbox" type="Area2D" parent="Hitboxes" unique_id=1368876281]
-position = Vector2(55, -46)
+[node name="LightHitbox" type="Area2D" parent="CharacterBody2D" unique_id=1335026659]
+position = Vector2(90, 0)
+scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 2
-monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/LightHitbox" unique_id=1211077617]
-shape = SubResource("RectangleShape2D_light_hitbox")
-debug_color = Color(0.956863, 0.270588, 0.564706, 0.419608)
+[node name="light" type="CollisionShape2D" parent="CharacterBody2D/LightHitbox" unique_id=283159911]
+position = Vector2(2000.0005, -885.92584)
+scale = Vector2(0.1, 0.1)
+shape = SubResource("RectangleShape2D_e1jte")
 
-[node name="HeavyHitbox" type="Area2D" parent="Hitboxes" unique_id=1800991524]
-position = Vector2(65, -46)
+[node name="HeavyHitbox" type="Area2D" parent="CharacterBody2D" unique_id=896122738]
+position = Vector2(100, 0)
+scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 2
-monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/HeavyHitbox" unique_id=1239801430]
-rotation = 0.258309
-shape = SubResource("RectangleShape2D_heavy_hitbox")
-debug_color = Color(0.956863, 0.121569, 0.14902, 0.419608)
+[node name="Heavy" type="CollisionShape2D" parent="CharacterBody2D/HeavyHitbox" unique_id=248291668]
+position = Vector2(2837.648, 620.31494)
+rotation = 0.25830877
+scale = Vector2(0.10000005, 0.10000005)
+shape = SubResource("RectangleShape2D_a2f65")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=1960032767]
+position = Vector2(19.999998, 29.999996)
