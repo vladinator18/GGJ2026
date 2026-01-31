@@ -24,19 +24,17 @@
 load_path = "res://.godot/imported/Punch1.png-2ba4d7eb6466340b1fddc2e970ad23f6.ctex"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y04va"]
-radius = 2500.0
-height = 9200.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_psxhv"]
-size = Vector2(5200.001, 5100.002)
+size = Vector2(1098, 795.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1jte"]
-size = Vector2(59999.996, 14281.483)
+size = Vector2(722.1001, 202.97253)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a2f65"]
-size = Vector2(45795.61, 49272.375)
+size = Vector2(469.08276, 807.45496)
 
-[node name="Sunny" type="Sprite2D" unique_id=120228279 node_paths=PackedStringArray("light_hitbox_area", "heavy_hitbox_area")]
+[node name="Sunny" type="Sprite2D" unique_id=120228279 node_paths=PackedStringArray("light_hitbox_area", "heavy_hitbox_area", "standing_collision", "crouch_collision")]
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_a2f65")
 idle_sprites = Array[Texture2D]([ExtResource("2_kaoov"), ExtResource("2_kaoov"), ExtResource("3_fubpg"), ExtResource("3_fubpg"), ExtResource("4_vt2eq"), ExtResource("4_vt2eq"), ExtResource("5_qxntr"), ExtResource("5_qxntr"), ExtResource("6_ttglw"), ExtResource("6_ttglw"), null])
@@ -44,42 +42,42 @@ walk_sprites = Array[Texture2D]([ExtResource("16_m316d"), ExtResource("3_aqpsi")
 light_attack_sprites = Array[Texture2D]([SubResource("CompressedTexture2D_psxhv"), ExtResource("3_2tsu6"), ExtResource("4_s823a"), ExtResource("5_cuxp8"), ExtResource("6_ullyt"), ExtResource("7_m316d"), ExtResource("16_m316d")])
 light_hitbox_area = NodePath("CharacterBody2D/LightHitbox")
 heavy_hitbox_area = NodePath("CharacterBody2D/HeavyHitbox")
+standing_collision = NodePath("CharacterBody2D/StandingCollison")
+crouch_collision = NodePath("CharacterBody2D/CrouchCollision")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1192398969]
+scale = Vector2(0.1, 0.1)
 
 [node name="StandingCollison" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1602020203]
-position = Vector2(-9.536743e-07, -20.000002)
+position = Vector2(5, -156)
 scale = Vector2(0.1, 0.1)
 shape = SubResource("CapsuleShape2D_y04va")
 
 [node name="CrouchCollision" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1662933754]
-position = Vector2(1.430511e-05, 304.9999)
-scale = Vector2(0.09999995, 0.09999995)
+position = Vector2(-13, 175.875)
+scale = Vector2(0.1, 0.1)
 shape = SubResource("RectangleShape2D_psxhv")
 disabled = true
 
 [node name="LightHitbox" type="Area2D" parent="CharacterBody2D" unique_id=1335026659]
-position = Vector2(90, 0)
+position = Vector2(70, 0)
 scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 2
 
 [node name="light" type="CollisionShape2D" parent="CharacterBody2D/LightHitbox" unique_id=283159911]
-position = Vector2(2000.0005, -885.92584)
+position = Vector2(539.94995, -182)
 scale = Vector2(0.1, 0.1)
 shape = SubResource("RectangleShape2D_e1jte")
 
 [node name="HeavyHitbox" type="Area2D" parent="CharacterBody2D" unique_id=896122738]
-position = Vector2(100, 0)
+position = Vector2(80, 0)
 scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 2
 
 [node name="Heavy" type="CollisionShape2D" parent="CharacterBody2D/HeavyHitbox" unique_id=248291668]
-position = Vector2(2837.648, 620.31494)
-rotation = 0.25830877
-scale = Vector2(0.10000005, 0.10000005)
+position = Vector2(636, 14.000008)
+rotation = 0.25830874
+scale = Vector2(0.1, 0.1)
 shape = SubResource("RectangleShape2D_a2f65")
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=1960032767]
-position = Vector2(19.999998, 29.999996)

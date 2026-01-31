@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bhbmy11jinbbw"]
+[gd_scene format=3 uid="uid://bsxq4d0f3g8kb"]
 
 [ext_resource type="Script" uid="uid://cogr45tv7d5iu" path="res://Sunny.gd" id="1_pvcd6"]
 [ext_resource type="Texture2D" uid="uid://ctc74tr0yvj6y" path="res://Sprites/Sunny/IDLE/IDLE1.PNG" id="2_lbcyj"]
@@ -50,9 +50,33 @@ size = Vector2(45795.61, 49272.375)
 [node name="Enemy" type="Sprite2D" unique_id=1013390089 node_paths=PackedStringArray("light_hitbox_area", "heavy_hitbox_area")]
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_pvcd6")
+max_health = null
+current_health = null
+light_attack_damage = null
+heavy_attack_damage = null
+ground_speed = null
+air_speed = null
+jump_strength = null
+gravity = null
+max_fall_speed = null
+air_friction = null
+floor_y_level = null
+left_boundary = null
+right_boundary = null
+clamp_to_boundaries = null
+attack_move_speed_mult = null
+light_attack_duration = null
+heavy_attack_duration = null
+combo_reset_time = null
+anim_frame_duration = null
 idle_sprites = Array[Texture2D]([ExtResource("2_lbcyj"), ExtResource("2_lbcyj"), ExtResource("3_meef1"), ExtResource("3_meef1"), ExtResource("4_4skay"), ExtResource("4_4skay"), ExtResource("5_d62g3"), ExtResource("5_d62g3"), ExtResource("6_cjoif"), ExtResource("6_cjoif"), null])
 walk_sprites = Array[Texture2D]([ExtResource("7_dhppe"), ExtResource("8_dtufr"), ExtResource("9_ycflp"), ExtResource("10_sqtsn"), ExtResource("11_mtsvx"), ExtResource("12_kj7y4"), ExtResource("13_mckv7"), ExtResource("14_xq71q")])
+jump_sprites = null
+taunt_sprites = null
+crouch_down_sprites = null
+get_up_sprites = null
 light_attack_sprites = Array[Texture2D]([SubResource("CompressedTexture2D_psxhv"), ExtResource("15_8w110"), ExtResource("16_81lbg"), ExtResource("17_fqj0t"), ExtResource("18_qkoyp"), ExtResource("19_r1tgs"), ExtResource("7_dhppe")])
+heavy_attack_sprites = null
 light_hitbox_area = NodePath("CharacterBody2D/LightHitbox")
 heavy_hitbox_area = NodePath("CharacterBody2D/HeavyHitbox")
 

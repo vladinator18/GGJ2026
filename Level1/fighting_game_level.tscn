@@ -2,10 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ryynntfqru8" path="res://Level1/camera_controller.gd" id="1_ex7nv"]
 [ext_resource type="Script" uid="uid://c6lbe5eslkauy" path="res://Level1/game_manager.gd" id="2_h65fs"]
+[ext_resource type="PackedScene" uid="uid://coh5vwkxp16v2" path="res://Enmy.tscn" id="3_tfabv"]
 [ext_resource type="PackedScene" uid="uid://doqlgiwevo3sl" path="res://SpriteA.tscn" id="4_pyeve"]
-[ext_resource type="PackedScene" uid="uid://bhbmy11jinbbw" path="res://Level1/enemy.tscn" id="5_oe2bj"]
-[ext_resource type="Script" uid="uid://b8kbs07fl38lh" path="res://Level1/diagnostic.gd" id="5_pyeve"]
-[ext_resource type="Script" uid="uid://csutim7h7bttv" path="res://Level1/enemy_with_combat.gd" id="6_oe2bj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tfabv"]
 size = Vector2(193, 245)
@@ -19,24 +17,12 @@ position = Vector2(5605, 3078)
 position = Vector2(5605, 3078)
 script = ExtResource("1_ex7nv")
 
-[node name="GameManager" type="Node" parent="." unique_id=47925606 node_paths=PackedStringArray("round_counter_label", "fight_announcement_label", "player_health_bar", "enemy_health_bar", "player_health_label", "enemy_health_label", "player_wins_label", "enemy_wins_label", "combo_label", "timer_label", "winner_label", "damage_stats_label", "player", "enemy")]
+[node name="GameManager" type="Node" parent="." unique_id=47925606 node_paths=PackedStringArray("player", "enemy")]
 script = ExtResource("2_h65fs")
-round_counter_label = NodePath("../UI/UIContainer/TopBar/CenterPanel/RoundCounterLabel")
-fight_announcement_label = NodePath("../UI/UIContainer/FightAnnouncementLabel")
-player_health_bar = NodePath("../UI/UIContainer/TopBar/PlayerPanel/PlayerHealthBar")
-enemy_health_bar = NodePath("../UI/UIContainer/TopBar/EnemyPanel/EnemyHealthBar")
-player_health_label = NodePath("../UI/UIContainer/TopBar/PlayerPanel/PlayerHealthLabel")
-enemy_health_label = NodePath("../UI/UIContainer/TopBar/EnemyPanel/EnemyHealthLabel")
-player_wins_label = NodePath("../UI/UIContainer/TopBar/PlayerPanel/PlayerWinsLabel")
-enemy_wins_label = NodePath("../UI/UIContainer/TopBar/EnemyPanel/EnemyWinsLabel")
-combo_label = NodePath("../UI/UIContainer/ComboLabel")
-timer_label = NodePath("../UI/UIContainer/TopBar/CenterPanel/TimerLabel")
-winner_label = NodePath("../UI/UIContainer/WinnerLabel")
-damage_stats_label = NodePath("../UI/UIContainer/damage")
 player = NodePath("../Sunny")
 enemy = NodePath("../Enemy")
 player_spawn_position = Vector2(936, 425)
-enemy_spawn_position = Vector2(245, 425)
+enemy_spawn_position = Vector2(936, 5656)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=243066659]
 
@@ -158,11 +144,6 @@ grow_vertical = 2
 text = "PLAYER WINS!"
 horizontal_alignment = 1
 
-[node name="damage" type="Label" parent="UI/UIContainer" unique_id=73501608]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="UI" unique_id=1126083539]
 visible = false
 position = Vector2(936, 425)
@@ -173,18 +154,8 @@ visible = false
 position = Vector2(247, 435)
 shape = SubResource("RectangleShape2D_tfabv")
 
-[node name="Node" type="Node" parent="." unique_id=373973155]
-script = ExtResource("5_pyeve")
+[node name="Enemy" parent="." unique_id=140807360 instance=ExtResource("3_tfabv")]
+auto_detect_boundaries = true
 
 [node name="Sunny" parent="." unique_id=120228279 instance=ExtResource("4_pyeve")]
-floor_y_level = 500.0
-
-[node name="Enemy" parent="." unique_id=1013390089 instance=ExtResource("5_oe2bj")]
-script = ExtResource("6_oe2bj")
-strike_zone = 250.0
-personal_space = 120.0
-floor_y_level = 500.0
-auto_detect_boundaries = true
-tactic_duration = 3.0
-aggression = 0.6
-move_speed = 480.0
+floor_y_level = 425.0
