@@ -60,7 +60,7 @@ func _on_character_selected(character: String):
 		
 		# Small delay then go to loading
 		await get_tree().create_timer(1.0).timeout
-		get_tree().change_scene_to_file("res://scenes/LoadingScreen.tscn")
+		get_tree().change_scene_to_file("res://autoload/Scene/LoadingScreen.tscn")
 
 func _on_ready_button_pressed():
 	if selected_character == "":

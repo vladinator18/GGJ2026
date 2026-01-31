@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GGJ"
-run/main_scene="uid://dpv81t5gl6xwd"
+run/main_scene="uid://b38leujfqx81k"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 GameState="*uid://d1i0f3r05np26"
 NetworkManager="*uid://c7rq0rqrwaldl"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/editor/plugin.cfg")
 
 [input]
 

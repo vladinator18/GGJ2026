@@ -84,11 +84,11 @@ func _on_next_button_pressed():
 
 @rpc("any_peer", "call_local", "reliable")
 func _goto_character_select():
-	get_tree().change_scene_to_file("res://scenes/CharacterSelect.tscn")
+	get_tree().change_scene_to_file("res://autoload/Scene/CharacterSelect.tscn")
 
 func _on_back_button_pressed():
 	network_manager.disconnect_from_network()
-	get_tree().change_scene_to_file("res://scenes/GameplaySelect.tscn")
+	get_tree().change_scene_to_file("res://autoload/Scene/GameplaySelect.tscn")
 
 func _on_player_name_input_text_changed(new_text: String):
 	network_manager.set_player_name(new_text)

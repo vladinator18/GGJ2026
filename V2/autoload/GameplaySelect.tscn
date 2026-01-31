@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://brnfp8nqbb454"]
+[gd_scene format=3 uid="uid://do4adphuvlr6y"]
 
 [ext_resource type="Script" path="res://autoload/GameplaySelect.gd" id="1"]
 
@@ -28,39 +28,57 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=162816716]
-layout_mode = 2
-theme_override_constants/separation = 30
+[node name="VBoxContainer" type="Node" parent="CenterContainer" unique_id=780173761]
 
 [node name="Title" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2076996056]
-layout_mode = 2
+offset_left = 56.0
+offset_top = 68.0
+offset_right = 557.0
+offset_bottom = 145.0
 theme_override_font_sizes/font_size = 56
 text = "GAMEPLAY SELECT"
 horizontal_alignment = 1
 
 [node name="Spacer1" type="Control" parent="CenterContainer/VBoxContainer" unique_id=184308128]
 custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
+layout_mode = 3
+anchors_preset = 0
+offset_top = 107.0
+offset_right = 501.0
+offset_bottom = 157.0
 
 [node name="SoloButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1516574992]
 custom_minimum_size = Vector2(500, 80)
-layout_mode = 2
+offset_left = 625.0
+offset_top = 68.0
+offset_right = 1125.0
+offset_bottom = 148.0
 theme_override_font_sizes/font_size = 32
 text = "SOLO vs AI"
 
 [node name="PVPButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=406210287]
 custom_minimum_size = Vector2(500, 80)
-layout_mode = 2
+offset_left = 621.0
+offset_top = 194.0
+offset_right = 1122.0
+offset_bottom = 274.0
 theme_override_font_sizes/font_size = 32
 text = "PVP (Player vs Player)"
 
 [node name="Spacer2" type="Control" parent="CenterContainer/VBoxContainer" unique_id=1149285687]
 custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
+layout_mode = 3
+anchors_preset = 0
+offset_top = 407.0
+offset_right = 501.0
+offset_bottom = 437.0
 
 [node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1233725255]
 custom_minimum_size = Vector2(500, 60)
-layout_mode = 2
+offset_left = 626.0
+offset_top = 327.0
+offset_right = 1127.0
+offset_bottom = 387.0
 theme_override_font_sizes/font_size = 24
 text = "BACK TO MAIN"
 

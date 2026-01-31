@@ -13,7 +13,7 @@ func _ready():
 
 func _on_level_1_button_pressed():
 	# This goes to gameplay select (your flow diagram)
-	get_tree().change_scene_to_file("res://autoload/Scene/GameplaySelect.tscn")
+	get_tree().change_scene_to_file("res://scenes/GameplaySelect.tscn")
 
 func _on_level_2_button_pressed():
 	# You can keep this for direct online access if you want
