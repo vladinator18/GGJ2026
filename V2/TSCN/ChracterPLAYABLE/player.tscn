@@ -2,53 +2,36 @@
 
 [ext_resource type="Script" uid="uid://bav2rcydplu6j" path="res://GD/PLAYER SPRITE/Player.gd" id="1_1qjqp"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_jeeoh"]
-radius = 30.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ymkti"]
-radius = 41.01219
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1qjqp"]
+radius = 84.0
+height = 196.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x2ukg"]
-size = Vector2(44, 20)
+size = Vector2(142, 20)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_r45eu"]
-a = Vector2(40, 65)
-b = Vector2(95, -17)
+a = Vector2(8.899999, 7.3999996)
+b = Vector2(28.699999, -0.39999998)
 
-[node name="Player" type="CharacterBody2D" unique_id=589825354 node_paths=PackedStringArray("standing_collision", "crouch_collision", "sprite")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ymkti"]
+radius = 114.01754
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jeeoh"]
+radius = 66.0
+
+[node name="Player" type="CharacterBody2D" unique_id=589825354]
 script = ExtResource("1_1qjqp")
-idle_sprites = null
-walk_sprites = null
-jump_sprites = null
-crouch_sprites = null
-get_up_sprites = null
-taunt_sprites = null
-standing_collision = NodePath("StandingCollision")
-crouch_collision = NodePath("CrouchCollision")
-sprite = NodePath("Sprite2D")
-move_speed = null
-jump_velocity = null
-gravity = null
-floor_y_level = null
-max_health = null
-light_attack_damage = null
-heavy_attack_damage = null
-block_damage_reduction = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1056963237]
+position = Vector2(-3, 19)
+shape = SubResource("CapsuleShape2D_1qjqp")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1911211285]
-
-[node name="StandingCollision" type="CollisionShape2D" parent="." unique_id=834838148]
-position = Vector2(-7, -6)
-shape = SubResource("CircleShape2D_jeeoh")
-
-[node name="CrouchCollision" type="CollisionShape2D" parent="." unique_id=130400437]
-position = Vector2(-3, 66)
-shape = SubResource("CircleShape2D_ymkti")
 
 [node name="LightHitbox" type="Area2D" parent="." unique_id=178107141]
 
 [node name="light" type="CollisionShape2D" parent="LightHitbox" unique_id=89083001]
-position = Vector2(47, 7)
+position = Vector2(120, 2)
 shape = SubResource("RectangleShape2D_x2ukg")
 debug_color = Color(0.76070434, 0.119744755, 0.24070615, 0.41960785)
 
@@ -56,7 +39,19 @@ debug_color = Color(0.76070434, 0.119744755, 0.24070615, 0.41960785)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeavyHitbox" unique_id=2054781359]
 position = Vector2(1, -2)
+scale = Vector2(10, 10)
 shape = SubResource("SegmentShape2D_r45eu")
 debug_color = Color(0.6538517, 0.11929586, 0.26092646, 0.41960785)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=284749844]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1204062361]
+position = Vector2(-7, -6)
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="Area2D" unique_id=130400437]
+position = Vector2(3, 148)
+shape = SubResource("CircleShape2D_ymkti")
+
+[node name="StandingCollision" type="CollisionShape2D" parent="Area2D" unique_id=834838148]
+position = Vector2(0, -39)
+shape = SubResource("CircleShape2D_jeeoh")

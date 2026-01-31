@@ -1,0 +1,224 @@
+[gd_scene load_steps=4 format=3 uid="uid://level2_round2"]
+
+[ext_resource type="Script" path="res://scripts/Level2.gd" id="1"]
+[ext_resource type="PackedScene" path="res://TSCN/Player.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://TSCN/AIFighter.tscn" id="3"]
+
+[node name="Level2" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_left = -1000.0
+offset_top = -600.0
+offset_right = 2000.0
+offset_bottom = 600.0
+color = Color(0.35, 0.2, 0.25, 1)
+
+[node name="BackgroundDecor" type="ColorRect" parent="."]
+offset_left = -800.0
+offset_top = -400.0
+offset_right = -600.0
+offset_bottom = 300.0
+color = Color(0.25, 0.15, 0.2, 1)
+
+[node name="BackgroundDecor2" type="ColorRect" parent="."]
+offset_left = 600.0
+offset_top = -400.0
+offset_right = 800.0
+offset_bottom = 300.0
+color = Color(0.25, 0.15, 0.2, 1)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(0, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("WorldBoundaryShape2D_ground")
+
+[node name="GroundVisual" type="ColorRect" parent="Ground"]
+offset_left = -1000.0
+offset_top = 0.0
+offset_right = 2000.0
+offset_bottom = 50.0
+color = Color(0.4, 0.25, 0.3, 1)
+
+[node name="Platform1" type="StaticBody2D" parent="."]
+position = Vector2(-250, 150)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform1"]
+shape = SubResource("RectangleShape2D_platform1")
+
+[node name="PlatformVisual" type="ColorRect" parent="Platform1"]
+offset_left = -75.0
+offset_top = -10.0
+offset_right = 75.0
+offset_bottom = 10.0
+color = Color(0.5, 0.3, 0.4, 1)
+
+[node name="Platform2" type="StaticBody2D" parent="."]
+position = Vector2(250, 150)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform2"]
+shape = SubResource("RectangleShape2D_platform2")
+
+[node name="PlatformVisual" type="ColorRect" parent="Platform2"]
+offset_left = -75.0
+offset_top = -10.0
+offset_right = 75.0
+offset_bottom = 10.0
+color = Color(0.5, 0.3, 0.4, 1)
+
+[node name="CenterPlatform" type="StaticBody2D" parent="."]
+position = Vector2(0, 50)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterPlatform"]
+shape = SubResource("RectangleShape2D_center")
+
+[node name="PlatformVisual" type="ColorRect" parent="CenterPlatform"]
+offset_left = -100.0
+offset_top = -10.0
+offset_right = 100.0
+offset_bottom = 10.0
+color = Color(0.5, 0.3, 0.4, 1)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(-600, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource("WorldBoundaryShape2D_left")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(600, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource("WorldBoundaryShape2D_right")
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(-300, 200)
+
+[node name="AISpawn" type="Marker2D" parent="."]
+position = Vector2(300, 200)
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(-300, 200)
+
+[node name="AI" parent="." instance=ExtResource("3")]
+position = Vector2(300, 200)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="RoundDisplay" type="Label" parent="UI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "ROUND 1"
+horizontal_alignment = 1
+
+[node name="PlayerHealth" type="ProgressBar" parent="UI"]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 250.0
+offset_bottom = 70.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="AIHealth" type="ProgressBar" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -250.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = 70.0
+grow_horizontal = 0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+fill_mode = 1
+
+[node name="PlayerLabel" type="Label" parent="UI"]
+offset_left = 50.0
+offset_top = 30.0
+offset_right = 150.0
+offset_bottom = 50.0
+text = "PLAYER"
+
+[node name="AILabel" type="Label" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_top = 30.0
+offset_right = -50.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "AI"
+horizontal_alignment = 2
+
+[node name="FightText" type="Label" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -50.0
+offset_right = 150.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "FIGHT!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelTitle" type="Label" parent="UI"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "ARENA 2: PLATFORMS"
+horizontal_alignment = 1
+
+[node name="RoundTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="RestartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ground"]
+normal = Vector2(0, -1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform1"]
+size = Vector2(150, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform2"]
+size = Vector2(150, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_center"]
+size = Vector2(200, 20)
+
+[connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
+[connection signal="timeout" from="RestartTimer" to="." method="_on_restart_timer_timeout"]

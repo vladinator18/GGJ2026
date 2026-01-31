@@ -1,97 +1,79 @@
 extends CharacterBody2D
-class_name Player
 
-# =====================================================
-# ANIMATION SPRITES
-# =====================================================
-@export var idle_sprites: Array[Texture2D] = []
-@export var walk_sprites: Array[Texture2D] = []
-@export var jump_sprites: Array[Texture2D] = []
-@export var crouch_sprites: Array[Texture2D] = []
-@export var get_up_sprites: Array[Texture2D] = []
-@export var taunt_sprites: Array[Texture2D] = []
-@export var light_attack_sprites: Array[Texture2D] = []
-@export var heavy_attack_sprites: Array[Texture2D] = []
-@export var block_sprites: Array[Texture2D] = []
-@export var hit_sprites: Array[Texture2D] = []
-@export var knockdown_sprites: Array[Texture2D] = []
+# Movement variables
+@export var walk_speed: float = 200.0
+@export var run_speed: float = 350.0
 
-# =====================================================
-# NODE REFERENCES
-# =====================================================
-@export var standing_collision: CollisionShape2D
-@export var crouch_collision: CollisionShape2D
-@export var sprite: Sprite2D
+# Animation variables
+var is_walking: bool = false
+var is_running: bool = false
+var facing_right: bool = true
 
-# =====================================================
-# MOVEMENT
-# =====================================================
-@export var move_speed := 300.0
-@export var jump_velocity := -600.0
-@export var gravity := 1800.0
-@export var floor_y_level := 500.0
+# References
+@onready var sprite = $Sprite2D
+@onready var heavy_hitbox = $HeavyHitbox
+@onready var light_hitbox = $LightHitbox
 
-# =====================================================
-# COMBAT
-# =====================================================
-@export var max_health := 100.0
-@export var light_attack_damage := 10.0
-@export var heavy_attack_damage := 25.0
-@export var block_damage_reduction := 0.5
-
-# =====================================================
-# STATE
-# =====================================================
-var current_health := 100.0
-
-var is_attacking := false
-var is_blocking := false
-var is_crouching := false
-var is_hit_stunned := false
-var is_knockdown := false
-
-var facing_right := true
-
-# =====================================================
-# ANIMATION STATE
-# =====================================================
-var current_animation := "idle"
-var animation_frame := 0
-var animation_timer := 0.0
-var frame_duration := 0.1
-
-# =====================================================
-# HITBOXES
-# =====================================================
-var light_hitbox: Area2D
-var heavy_hitbox: Area2D
-var hurtbox: Area2D
-
-# =====================================================
-# SIGNALS
-# =====================================================
-signal health_changed(new_health: float)
-signal damaged(damage: float)
-signal attack_landed(damage: float, is_heavy: bool)
-signal died()
-signal combo_performed(count: int)
-
-# =====================================================
-# READY
-# =====================================================
 func _ready():
-	current_health = max_health
+	# Initial setup
+	pass
 
-	sprite = $Sprite2D
-	light_hitbox = $Hitboxes/LightHitbox
-	heavy_hitbox = $Hitboxes/HeavyHitbox
-	hurtbox = $Hurtbox
+func _physics_process(delta):
+	# Get input direction
+	var input_dir = Input.get_axis("ui_left", "ui_right")
+	
+	# Handle movement
+	if input_dir != 0:
+		# Check if running (hold shift) - removed for now
+		is_running = false  # Set to false until we add the input action
+		
+		var current_speed = run_speed if is_running else walk_speed
+		velocity.x = input_dir * current_speed
+		is_walking = true
+		
+		# Handle sprite flipping
+		if input_dir > 0 and not facing_right:
+			flip_character(true)
+		elif input_dir < 0 and facing_right:
+			flip_character(false)
+	else:
+		velocity.x = move_toward(velocity.x, 0, walk_speed * delta * 10)
+		is_walking = false
+		is_running = false
+	
+	# Apply movement
+	move_and_slide()
+	
+	# Update animation state
+	update_animation()
 
-	_setup_hitbox(light_hitbox)
-	_setup_hitbox(heavy_hitbox)
+func flip_character(right: bool):
+	facing_right = right
+	sprite.flip_h = not right
+	
+	# Flip hitboxes if needed
+	if heavy_hitbox and heavy_hitbox.has_node("CollisionShape2D"):
+		var hitbox_shape = heavy_hitbox.get_node("CollisionShape2D")
+		hitbox_shape.position.x = abs(hitbox_shape.position.x) * (1 if right else -1)
+	
+	if light_hitbox and light_hitbox.has_node("CollisionShape2D"):
+		var hitbox_shape = light_hitbox.get_node("CollisionShape2D")
+		hitbox_shape.position.x = abs(hitbox_shape.position.x) * (1 if right else -1)
 
+func update_animation():
+	# Simplified - no frame animation until you add AnimatedSprite2D
+	# Just keep the sprite as-is for now
+	pass
+
+# Optional: Combat functions for your hitboxes
+func light_attack():
 	if light_hitbox:
-		light_hitbox.area_entered.connect(_on_light_hitbox_area_entered)
+		light_hitbox.monitoring = true
+		await get_tree().create_timer(0.2).timeout
+		light_hitbox.monitoring = false
 
+func heavy_attack():
 	if heavy_hitbox:
-		heavy_hitbox.area_entere
+		heavy_hitbox.monitoring = true
+		await get_tree().create_timer(0.3).timeout
+		heavy_hitbox.monitoring = false

@@ -5,8 +5,6 @@
 
 [node name="Node2D" type="Node2D" unique_id=702957103]
 
-[node name="Camera2D2" type="Camera2D" parent="." unique_id=1085066462]
-
 [node name="FightManeger" type="Node" parent="." unique_id=1516488373]
 
 [node name="Enemy" parent="." unique_id=589825354 instance=ExtResource("1_mc20k")]
