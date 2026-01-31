@@ -2,15 +2,17 @@
 
 [ext_resource type="Script" uid="uid://bue7a6s512bq8" path="res://GD/Level1/Level1.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://c3m2ywy7v6qfw" path="res://TSCN/ChracterPLAYABLE/player.tscn" id="3"]
-[ext_resource type="Script" uid="uid://cm5s2qsixxaf3" path="res://TSCN/ChracterPLAYABLE/Enemy.gd" id="3_0bl3p"]
+[ext_resource type="PackedScene" uid="uid://lobqv4xddv3n" path="res://enemy.tscn" id="3_0bl3p"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ground"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
 normal = Vector2(1, 0)
+distance = -502.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
 normal = Vector2(-1, 0)
+distance = -1510.0
 
 [node name="Level1" type="Node2D" unique_id=603369598]
 script = ExtResource("1")
@@ -41,7 +43,7 @@ position = Vector2(-500, 0)
 shape = SubResource("WorldBoundaryShape2D_left")
 
 [node name="RightWall" type="StaticBody2D" parent="." unique_id=920018598]
-position = Vector2(500, 0)
+position = Vector2(1970, 7)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=148825857]
 shape = SubResource("WorldBoundaryShape2D_right")
@@ -53,11 +55,10 @@ position = Vector2(-200, 200)
 position = Vector2(200, 200)
 
 [node name="Player" parent="." unique_id=1530722029 instance=ExtResource("3")]
-position = Vector2(-200, 200)
+position = Vector2(-417, -34)
 
-[node name="AI" parent="." unique_id=1250033332 instance=ExtResource("3")]
-position = Vector2(200, 200)
-script = ExtResource("3_0bl3p")
+[node name="AI" parent="." unique_id=589825354 instance=ExtResource("3_0bl3p")]
+position = Vector2(1500, 7)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1170615108]
 

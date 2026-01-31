@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://lobqv4xddv3n"]
+
+[ext_resource type="Script" uid="uid://cm5s2qsixxaf3" path="res://TSCN/ChracterPLAYABLE/Enemy.gd" id="1_7k104"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1qjqp"]
+radius = 84.0
+height = 196.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x2ukg"]
+size = Vector2(152, 41)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_r45eu"]
+a = Vector2(8.899999, 7.3999996)
+b = Vector2(-23.099998, 3.8999999)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ymkti"]
+radius = 114.01754
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jeeoh"]
+radius = 66.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=589825354]
+script = ExtResource("1_7k104")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1056963237]
+position = Vector2(-3, 19)
+shape = SubResource("CapsuleShape2D_1qjqp")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1911211285]
+
+[node name="LightHitbox" type="Area2D" parent="." unique_id=178107141]
+
+[node name="light" type="CollisionShape2D" parent="LightHitbox" unique_id=89083001]
+position = Vector2(-159, -6.5)
+shape = SubResource("RectangleShape2D_x2ukg")
+debug_color = Color(0.76070434, 0.119744755, 0.24070615, 0.41960785)
+
+[node name="HeavyHitbox" type="Area2D" parent="." unique_id=2105955899]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeavyHitbox" unique_id=2054781359]
+position = Vector2(1, -2)
+scale = Vector2(10, 10)
+shape = SubResource("SegmentShape2D_r45eu")
+debug_color = Color(0.6538517, 0.11929586, 0.26092646, 0.41960785)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=284749844]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1204062361]
+position = Vector2(-7, -6)
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="Area2D" unique_id=130400437]
+position = Vector2(3, 148)
+shape = SubResource("CircleShape2D_ymkti")
+
+[node name="StandingCollision" type="CollisionShape2D" parent="Area2D" unique_id=834838148]
+position = Vector2(0, -39)
+shape = SubResource("CircleShape2D_jeeoh")
