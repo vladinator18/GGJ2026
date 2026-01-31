@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://c7bocsxn5cipy"]
+
+[node name="Node2D" type="Node2D" unique_id=702957103]
+
+[node name="FightManeger" type="Node" parent="." unique_id=1516488373]

@@ -1,29 +1,22 @@
 [gd_scene format=3 uid="uid://dl587y4upd026"]
 
-[ext_resource type="Script" path="res://Level1/V2/camera_controller.gd" id="1_4bbh4"]
-[ext_resource type="Script" path="res://Level1/V2/game_manager.gd" id="2_uc240"]
-[ext_resource type="PackedScene" uid="uid://doqlgiwevo3sl" path="res://Level1/V2/Player.tscn" id="3"]
-[ext_resource type="Script" path="res://Level1/V2/diagnostic.gd" id="3_afgo7"]
-[ext_resource type="Script" uid="uid://d0u5t07nutlsf" path="res://Level1/V2/player_health_bar.gd" id="3_uc240"]
-[ext_resource type="PackedScene" uid="uid://bhbmy11jinbbw" path="res://Level1/enemy.tscn" id="4"]
-[ext_resource type="Script" uid="uid://b1voygn5mv2g2" path="res://Level1/V2/enemy_health_bar.gd" id="4_afgo7"]
-[ext_resource type="Script" uid="uid://csutim7h7bttv" path="res://Level1/enemy_with_combat.gd" id="7_slddx"]
-[ext_resource type="Script" uid="uid://0ekn6wvaesph" path="res://Level1/V2/node.gd" id="8_2xshc"]
+[ext_resource type="Script" uid="uid://dq8a8ukquxplj" path="res://Level1/V2/game_manager.gd" id="2_uc240"]
+[ext_resource type="PackedScene" uid="uid://bhbmy11jinbbw" path="res://Level1/V2/Enemy.tscn" id="3_1wcbs"]
+[ext_resource type="Script" uid="uid://dypgp6w166tt3" path="res://Level1/V2/player_health_bar.gd" id="3_uc240"]
+[ext_resource type="PackedScene" uid="uid://doqlgiwevo3sl" path="res://Level1/V2/Player.tscn" id="4_4bbh4"]
+[ext_resource type="Script" uid="uid://ckn457ktf6xej" path="res://Level1/V2/enemy_health_bar.gd" id="4_afgo7"]
 
 [node name="FightingGameLevel" type="Node2D" unique_id=2039576482]
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1845035997]
 position = Vector2(576, 324)
-script = ExtResource("1_4bbh4")
 
-[node name="GameManager" type="Node" parent="." unique_id=2026218072 node_paths=PackedStringArray("player", "enemy", "player_health_bar", "enemy_health_bar", "round_label", "winner_label", "match_status_label")]
+[node name="GameManager" type="Node" parent="." unique_id=2026218072 node_paths=PackedStringArray("player", "enemy", "round_label", "winner_label", "match_status_label")]
 script = ExtResource("2_uc240")
-player = NodePath("../Player")
+player = NodePath("../Player2")
 enemy = NodePath("../Enemy")
-player_health_bar = NodePath("../UI/UIContainer/TopBar/PlayerPanel/PlayerHealthBar")
-enemy_health_bar = NodePath("../UI/UIContainer/TopBar/EnemyPanel/EnemyHealthBar")
 round_label = NodePath("../UI/UIContainer/TopBar/CenterPanel/RoundCounterLabel")
-winner_label = NodePath("../UI/UIContainer/WinnerLabel")
+winner_label = NodePath("../UI/UIContainer/TopBar/PlayerPanel/PlayerHealthLabel")
 match_status_label = NodePath("../UI/UIContainer/TopBar/CenterPanel/TimerLabel")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1387140846]
@@ -60,7 +53,7 @@ value = 100.0
 script = ExtResource("3_uc240")
 health_label = NodePath("../PlayerHealthLabel")
 character_name_label = NodePath("../../../DebugLabel")
-tracked_character = NodePath("../../../../../Enemy")
+tracked_character = NodePath("")
 
 [node name="PlayerHealthLabel" type="Label" parent="UI/UIContainer/TopBar/PlayerPanel" unique_id=1954627900]
 layout_mode = 2
@@ -101,7 +94,7 @@ script = ExtResource("4_afgo7")
 health_bar = NodePath(".")
 health_label = NodePath("../EnemyHealthLabel")
 character_name_label = NodePath("../../../DebugLabel")
-tracked_character = NodePath("../../../../../Enemy")
+tracked_character = NodePath("")
 
 [node name="EnemyHealthLabel" type="Label" parent="UI/UIContainer/TopBar/EnemyPanel" unique_id=340663527]
 layout_mode = 2
@@ -173,34 +166,13 @@ theme_override_font_sizes/font_size = 14
 text = "Debug Info"
 
 [node name="Diagnostic" type="Node" parent="." unique_id=1839589555]
-script = ExtResource("3_afgo7")
 
-[node name="Enemy" parent="." unique_id=1555353797 instance=ExtResource("4")]
-position = Vector2(903, 500)
-scale = Vector2(1, 1)
-collision_layer = 2
-script = ExtResource("7_slddx")
-move_speed = null
-jump_velocity = null
-gravity = null
-floor_y_level = null
-strike_zone = null
-personal_space = null
-aggression = null
-reaction_time = null
-auto_detect_boundaries = null
-tactic_duration = null
-max_health = null
-light_attack_damage = null
-heavy_attack_damage = null
-block_chance = null
+[node name="Enemy" parent="." unique_id=515398415 instance=ExtResource("3_1wcbs")]
+scale = Vector2(0.1, 0.1)
+floor_y_level = 200.0
 
-[node name="Player" parent="." unique_id=1186710696 instance=ExtResource("3")]
-
-[node name="Node" type="Node" parent="Player" unique_id=1603640892 node_paths=PackedStringArray("player", "enemy")]
-script = ExtResource("8_2xshc")
-player = NodePath("..")
-enemy = NodePath("../../Enemy")
+[node name="Player2" parent="." unique_id=1186710696 instance=ExtResource("4_4bbh4")]
+scale = Vector2(0.1, 0.1)
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=717513704]
 position = Vector2(576, 450)
