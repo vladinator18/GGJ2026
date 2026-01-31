@@ -15,6 +15,11 @@ run/main_scene="uid://c3m2ywy7v6qfw"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameState="*uid://d1i0f3r05np26"
+NetworkManager="*uid://c7rq0rqrwaldl"
+
 [input]
 
 heavy_attack={

@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://c8kx7w3h5mnpq"]
+
+[ext_resource type="Script" path="res://scenes/GameplaySelect.gd" id="1"]
+
+[node name="GameplaySelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0.15, 0.2, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 56
+text = "GAMEPLAY SELECT"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="SoloButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "SOLO vs AI"
+
+[node name="PVPButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "PVP (Player vs Player)"
+
+[node name="Spacer2" type="Control" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "BACK TO MAIN"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SoloButton" to="." method="_on_solo_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/PVPButton" to="." method="_on_pvp_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

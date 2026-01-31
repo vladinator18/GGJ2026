@@ -19,39 +19,76 @@ radius = 114.01754
 [sub_resource type="CircleShape2D" id="CircleShape2D_jeeoh"]
 radius = 66.0
 
-[node name="Player" type="CharacterBody2D" unique_id=589825354]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hurtbox"]
+radius = 90.0
+height = 200.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ultimate"]
+radius = 200.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 8
 script = ExtResource("1_1qjqp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1056963237]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-3, 19)
 shape = SubResource("CapsuleShape2D_1qjqp")
+debug_color = Color(0, 0.6, 0.7019608, 0.41960785)
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1911211285]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 
-[node name="LightHitbox" type="Area2D" parent="." unique_id=178107141]
+[node name="LightHitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
 
-[node name="light" type="CollisionShape2D" parent="LightHitbox" unique_id=89083001]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightHitbox"]
 position = Vector2(120, 2)
 shape = SubResource("RectangleShape2D_x2ukg")
 debug_color = Color(0.76070434, 0.119744755, 0.24070615, 0.41960785)
 
-[node name="HeavyHitbox" type="Area2D" parent="." unique_id=2105955899]
+[node name="Visual" type="ColorRect" parent="LightHitbox"]
+visible = false
+offset_left = 50.0
+offset_top = -10.0
+offset_right = 190.0
+offset_bottom = 10.0
+color = Color(1, 1, 0, 0.5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HeavyHitbox" unique_id=2054781359]
-position = Vector2(1, -2)
-scale = Vector2(10, 10)
-shape = SubResource("SegmentShape2D_r45eu")
+[node name="HeavyHitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeavyHitbox"]
+position = Vector2(120, -2)
+shape = SubResource("RectangleShape2D_x2ukg")
 debug_color = Color(0.6538517, 0.11929586, 0.26092646, 0.41960785)
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=284749844]
+[node name="Visual" type="ColorRect" parent="HeavyHitbox"]
+visible = false
+offset_left = 50.0
+offset_top = -12.0
+offset_right = 190.0
+offset_bottom = 12.0
+color = Color(1, 0.5, 0, 0.5)
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1204062361]
-position = Vector2(-7, -6)
+[node name="UltimateHitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
 
-[node name="CrouchCollision" type="CollisionShape2D" parent="Area2D" unique_id=130400437]
-position = Vector2(3, 148)
-shape = SubResource("CircleShape2D_ymkti")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UltimateHitbox"]
+shape = SubResource("CircleShape2D_ultimate")
+debug_color = Color(0.8, 0, 1, 0.3)
 
-[node name="StandingCollision" type="CollisionShape2D" parent="Area2D" unique_id=834838148]
-position = Vector2(0, -39)
-shape = SubResource("CircleShape2D_jeeoh")
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-3, 19)
+shape = SubResource("CapsuleShape2D_hurtbox")
+debug_color = Color(1, 0, 0, 0.2)
+
+[node name="Camera2D" type="Camera2D" parent="."]

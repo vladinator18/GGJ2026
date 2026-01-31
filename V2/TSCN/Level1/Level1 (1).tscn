@@ -14,55 +14,67 @@ distance = -502.0
 normal = Vector2(-1, 0)
 distance = -1510.0
 
-[node name="Level1" type="Node2D" unique_id=603369598]
+[node name="Level1" type="Node2D" unique_id=225470188 node_paths=PackedStringArray("player", "ai_fighter", "player_spawn", "ai_spawn", "round_display", "player_health_bar", "ai_health_bar", "player_ultimate_bar", "ai_ultimate_bar", "fight_text", "round_timer", "restart_timer")]
 script = ExtResource("1")
+player = NodePath("Player")
+ai_fighter = NodePath("AI")
+player_spawn = NodePath("PlayerSpawn")
+ai_spawn = NodePath("AISpawn")
+round_display = NodePath("UI/RoundDisplay")
+player_health_bar = NodePath("UI/PlayerHealth")
+ai_health_bar = NodePath("UI/AIHealth")
+player_ultimate_bar = NodePath("UI/PlayerUltimate")
+ai_ultimate_bar = NodePath("UI/AIUltimate")
+fight_text = NodePath("UI/FightText")
+round_timer = NodePath("RoundTimer")
+restart_timer = NodePath("RestartTimer")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1290381390]
+[node name="Background" type="ColorRect" parent="." unique_id=1345970936]
 offset_left = -1000.0
 offset_top = -600.0
 offset_right = 2000.0
 offset_bottom = 600.0
 color = Color(0.2, 0.25, 0.35, 1)
 
-[node name="Ground" type="StaticBody2D" parent="." unique_id=1677290880]
+[node name="Ground" type="StaticBody2D" parent="." unique_id=1634735161]
 position = Vector2(0, 300)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=732771994]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=503484737]
 shape = SubResource("WorldBoundaryShape2D_ground")
 
-[node name="GroundVisual" type="ColorRect" parent="Ground" unique_id=760810911]
+[node name="GroundVisual" type="ColorRect" parent="Ground" unique_id=2030346259]
 offset_left = -1000.0
 offset_right = 2000.0
 offset_bottom = 50.0
 color = Color(0.3, 0.3, 0.3, 1)
 
-[node name="LeftWall" type="StaticBody2D" parent="." unique_id=1976395764]
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=938772562]
 position = Vector2(-500, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=133258995]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=1960259798]
 shape = SubResource("WorldBoundaryShape2D_left")
 
-[node name="RightWall" type="StaticBody2D" parent="." unique_id=920018598]
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=1087279095]
 position = Vector2(1970, 7)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=148825857]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=1998764278]
 shape = SubResource("WorldBoundaryShape2D_right")
 
-[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1203654369]
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=109471139]
 position = Vector2(-200, 200)
 
-[node name="AISpawn" type="Marker2D" parent="." unique_id=1202458730]
+[node name="AISpawn" type="Marker2D" parent="." unique_id=294753002]
 position = Vector2(200, 200)
 
-[node name="Player" parent="." unique_id=1530722029 instance=ExtResource("3")]
-position = Vector2(-417, -34)
+[node name="Player" parent="." unique_id=2101253949 instance=ExtResource("3")]
+position = Vector2(-200, 200)
 
-[node name="AI" parent="." unique_id=589825354 instance=ExtResource("3_0bl3p")]
-position = Vector2(1500, 7)
+[node name="AI" parent="." unique_id=1428292951 instance=ExtResource("3_0bl3p")]
+position = Vector2(200, 200)
 
-[node name="UI" type="CanvasLayer" parent="." unique_id=1170615108]
+[node name="UI" type="CanvasLayer" parent="." unique_id=724194393]
 
-[node name="RoundDisplay" type="Label" parent="UI" unique_id=480924626]
+[node name="RoundDisplay" type="Label" parent="UI" unique_id=1725447149]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -75,35 +87,29 @@ theme_override_font_sizes/font_size = 32
 text = "ROUND 1"
 horizontal_alignment = 1
 
-[node name="PlayerHealth" type="ProgressBar" parent="UI" unique_id=1355787023]
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 250.0
-offset_bottom = 70.0
-value = 100.0
-show_percentage = false
-
-[node name="AIHealth" type="ProgressBar" parent="UI" unique_id=1274527326]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -250.0
-offset_top = 50.0
-offset_right = -50.0
-offset_bottom = 70.0
-grow_horizontal = 0
-value = 100.0
-fill_mode = 1
-show_percentage = false
-
-[node name="PlayerLabel" type="Label" parent="UI" unique_id=1280801602]
+[node name="PlayerLabel" type="Label" parent="UI" unique_id=2133308414]
 offset_left = 50.0
 offset_top = 30.0
 offset_right = 150.0
 offset_bottom = 50.0
 text = "PLAYER"
 
-[node name="AILabel" type="Label" parent="UI" unique_id=1750640819]
+[node name="PlayerHealth" type="ProgressBar" parent="UI" unique_id=588176909]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 350.0
+offset_bottom = 75.0
+value = 100.0
+show_percentage = false
+
+[node name="PlayerUltimate" type="ProgressBar" parent="UI" unique_id=436945225]
+offset_left = 50.0
+offset_top = 80.0
+offset_right = 350.0
+offset_bottom = 95.0
+show_percentage = false
+
+[node name="AILabel" type="Label" parent="UI" unique_id=54301221]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -115,7 +121,32 @@ grow_horizontal = 0
 text = "AI"
 horizontal_alignment = 2
 
-[node name="FightText" type="Label" parent="UI" unique_id=1307682620]
+[node name="AIHealth" type="ProgressBar" parent="UI" unique_id=1543103887]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -350.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = 75.0
+grow_horizontal = 0
+value = 100.0
+fill_mode = 1
+show_percentage = false
+
+[node name="AIUltimate" type="ProgressBar" parent="UI" unique_id=995595725]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -350.0
+offset_top = 80.0
+offset_right = -50.0
+offset_bottom = 95.0
+grow_horizontal = 0
+fill_mode = 1
+show_percentage = false
+
+[node name="FightText" type="Label" parent="UI" unique_id=1445432279]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -133,11 +164,11 @@ text = "FIGHT!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RoundTimer" type="Timer" parent="." unique_id=593917096]
+[node name="RoundTimer" type="Timer" parent="." unique_id=901138460]
 wait_time = 3.0
 one_shot = true
 
-[node name="RestartTimer" type="Timer" parent="." unique_id=1905770625]
+[node name="RestartTimer" type="Timer" parent="." unique_id=1655098347]
 wait_time = 2.0
 one_shot = true
 

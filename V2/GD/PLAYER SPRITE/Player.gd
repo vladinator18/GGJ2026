@@ -5,6 +5,11 @@ class_name Player
 @export var walk_speed: float = 200.0
 @export var run_speed: float = 350.0
 
+# Health system
+@export var max_health: float = 100.0
+var current_health: float = 100.0
+var is_dead: bool = false
+
 # Animation variables
 var is_walking: bool = false
 var is_running: bool = false
@@ -27,6 +32,10 @@ var ultimate_active: bool = false
 var hitbox_original_colors = {}
 
 func _ready():
+	current_health = max_health
+	add_to_group("player")
+	add_to_group("alive")
+	
 	# Store original hitbox colors and hide them
 	if heavy_hitbox and heavy_hitbox.has_node("Visual"):
 		var visual = heavy_hitbox.get_node("Visual")
@@ -41,12 +50,22 @@ func _ready():
 	# Disable hitbox monitoring by default
 	if heavy_hitbox:
 		heavy_hitbox.monitoring = false
+		heavy_hitbox.area_entered.connect(_on_heavy_hitbox_area_entered)
 	if light_hitbox:
 		light_hitbox.monitoring = false
+		light_hitbox.area_entered.connect(_on_light_hitbox_area_entered)
 	if ultimate_hitbox:
 		ultimate_hitbox.monitoring = false
+		ultimate_hitbox.area_entered.connect(_on_ultimate_hitbox_area_entered)
 
 func _physics_process(delta):
+	# Check if dead
+	if is_dead or current_health <= 0:
+		if not is_dead:
+			die()
+		velocity.x = 0
+		return
+	
 	# Don't allow movement during attacks
 	if is_attacking:
 		velocity.x = move_toward(velocity.x, 0, walk_speed * delta * 20)
@@ -116,7 +135,7 @@ func update_animation():
 
 # Combat functions with visual feedback
 func light_attack():
-	if is_attacking:
+	if is_attacking or is_dead:
 		return
 	
 	is_attacking = true
@@ -139,7 +158,7 @@ func light_attack():
 	is_attacking = false
 
 func heavy_attack():
-	if is_attacking:
+	if is_attacking or is_dead:
 		return
 	
 	is_attacking = true
@@ -162,7 +181,7 @@ func heavy_attack():
 	is_attacking = false
 
 func ultimate_attack():
-	if is_attacking or ultimate_charge < ultimate_cost:
+	if is_attacking or ultimate_charge < ultimate_cost or is_dead:
 		return
 	
 	is_attacking = true
@@ -205,6 +224,75 @@ func create_ultimate_effect():
 	# Remove after animation
 	await tween.finished
 	ultimate_visual.queue_free()
+
+# Hitbox collision handlers
+func _on_light_hitbox_area_entered(area: Area2D):
+	"""Called when light attack hitbox hits something"""
+	var target = area.get_parent()
+	if target and target != self and target.has_method("take_damage"):
+		var damage = 10.0
+		target.take_damage(damage)
+		on_hit_landed(damage)
+
+func _on_heavy_hitbox_area_entered(area: Area2D):
+	"""Called when heavy attack hitbox hits something"""
+	var target = area.get_parent()
+	if target and target != self and target.has_method("take_damage"):
+		var damage = 20.0
+		target.take_damage(damage)
+		on_hit_landed(damage)
+
+func _on_ultimate_hitbox_area_entered(area: Area2D):
+	"""Called when ultimate hitbox hits something"""
+	var target = area.get_parent()
+	if target and target != self and target.has_method("take_damage"):
+		var damage = 50.0
+		target.take_damage(damage)
+		on_hit_landed(damage)
+
+# Damage handling
+func take_damage(damage: float):
+	"""Called when this player takes damage"""
+	if is_dead:
+		return
+	
+	current_health -= damage
+	print("Player took ", damage, " damage! Health: ", current_health)
+	
+	# Flash red when hit
+	if sprite:
+		sprite.modulate = Color(1, 0.3, 0.3)
+		await get_tree().create_timer(0.1).timeout
+		sprite.modulate = Color(1, 1, 1)
+	
+	# Charge ultimate when taking damage
+	ultimate_charge = min(ultimate_charge + damage * 1.0, ultimate_max)
+	
+	if current_health <= 0:
+		die()
+
+func die():
+	"""Handle player death"""
+	is_dead = true
+	remove_from_group("alive")
+	print("Player defeated!")
+	
+	# Disable hitboxes
+	if heavy_hitbox:
+		heavy_hitbox.monitoring = false
+	if light_hitbox:
+		light_hitbox.monitoring = false
+	if ultimate_hitbox:
+		ultimate_hitbox.monitoring = false
+	
+	# Optional: Add death animation
+	if sprite:
+		var tween = create_tween()
+		tween.tween_property(sprite, "modulate:a", 0.0, 1.0)
+		await tween.finished
+	
+	# Optional: Game over logic
+	# get_tree().reload_current_scene()
 
 # Called when this character hits something
 func on_hit_landed(damage: float):
