@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://doqlgiwevo3sl"]
+
+[ext_resource type="Script" uid="uid://bh5mfbda8tjgp" path="res://Level1/V2/player.gd" id="1_0i3d1"]
+[ext_resource type="Texture2D" uid="uid://ctc74tr0yvj6y" path="res://Sprites/Sunny/IDLE/IDLE1.PNG" id="2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_standing"]
+radius = 25.0
+height = 92.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crouch"]
+size = Vector2(52, 51)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(50, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_light_hitbox"]
+size = Vector2(60, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_heavy_hitbox"]
+size = Vector2(80, 50)
+
+[node name="Player" type="CharacterBody2D" unique_id=1186710696 node_paths=PackedStringArray("standing_collision", "crouch_collision", "sprite") groups=["player"]]
+collision_mask = 2
+script = ExtResource("1_0i3d1")
+standing_collision = NodePath("StandingCollision")
+crouch_collision = NodePath("CrouchCollision")
+sprite = NodePath("Sprite")
+
+[node name="StandingCollision" type="CollisionShape2D" parent="." unique_id=649155780]
+position = Vector2(0, -46)
+shape = SubResource("CapsuleShape2D_standing")
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="." unique_id=1953444545]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_crouch")
+disabled = true
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1319018452]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1148226166]
+position = Vector2(0, -46)
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="Hitboxes" type="Node2D" parent="." unique_id=1480591056]
+
+[node name="LightHitbox" type="Area2D" parent="Hitboxes" unique_id=1423899634]
+position = Vector2(55, -46)
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/LightHitbox" unique_id=1235065456]
+shape = SubResource("RectangleShape2D_light_hitbox")
+debug_color = Color(0.956863, 0.270588, 0.564706, 0.419608)
+
+[node name="HeavyHitbox" type="Area2D" parent="Hitboxes" unique_id=900092681]
+position = Vector2(65, -46)
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/HeavyHitbox" unique_id=1961743890]
+rotation = 0.258309
+shape = SubResource("RectangleShape2D_heavy_hitbox")
+debug_color = Color(0.956863, 0.121569, 0.14902, 0.419608)
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=594916924]
+visible = false
+texture = ExtResource("2")
+offset = Vector2(0, -46)

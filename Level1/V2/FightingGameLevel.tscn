@@ -1,0 +1,189 @@
+[gd_scene format=3 uid="uid://dl587y4upd026"]
+
+[ext_resource type="Script" uid="uid://dvpakf6pvyfc" path="res://Level1/V2/camera_controller.gd" id="1_4bbh4"]
+[ext_resource type="Script" uid="uid://ce65mq7otfclh" path="res://Level1/V2/game_manager.gd" id="2_uc240"]
+[ext_resource type="PackedScene" uid="uid://doqlgiwevo3sl" path="res://Level1/V2/Player.tscn" id="3"]
+[ext_resource type="Script" uid="uid://bn6rgo748a0og" path="res://Level1/V2/diagnostic.gd" id="3_afgo7"]
+[ext_resource type="Script" uid="uid://d0u5t07nutlsf" path="res://Level1/V2/player_health_bar.gd" id="3_uc240"]
+[ext_resource type="PackedScene" uid="uid://bhbmy11jinbbw" path="res://Level1/V2/Enemy.tscn" id="4"]
+[ext_resource type="Script" uid="uid://b1voygn5mv2g2" path="res://Level1/V2/enemy_health_bar.gd" id="4_afgo7"]
+
+[node name="FightingGameLevel" type="Node2D" unique_id=2039576482]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1845035997]
+position = Vector2(576, 324)
+script = ExtResource("1_4bbh4")
+
+[node name="GameManager" type="Node" parent="." unique_id=2026218072 node_paths=PackedStringArray("player", "enemy", "player_health_bar", "enemy_health_bar", "round_label", "winner_label", "match_status_label")]
+script = ExtResource("2_uc240")
+player = NodePath("../Player")
+enemy = NodePath("../Enemy")
+player_health_bar = NodePath("../UI/UIContainer/TopBar/PlayerPanel/PlayerHealthBar")
+enemy_health_bar = NodePath("../UI/UIContainer/TopBar/EnemyPanel/EnemyHealthBar")
+round_label = NodePath("../UI/UIContainer/TopBar/CenterPanel/RoundCounterLabel")
+winner_label = NodePath("../UI/UIContainer/WinnerLabel")
+match_status_label = NodePath("../UI/UIContainer/TopBar/CenterPanel/TimerLabel")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1387140846]
+
+[node name="UIContainer" type="Control" parent="UI" unique_id=606226493]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="HBoxContainer" parent="UI/UIContainer" unique_id=1090593746]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="PlayerPanel" type="VBoxContainer" parent="UI/UIContainer/TopBar" unique_id=1932098107]
+layout_mode = 2
+
+[node name="PlayerWinsLabel" type="Label" parent="UI/UIContainer/TopBar/PlayerPanel" unique_id=1944272599]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "P: 0"
+horizontal_alignment = 1
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="UI/UIContainer/TopBar/PlayerPanel" unique_id=1517629504 node_paths=PackedStringArray("health_bar", "health_label", "character_name_label", "tracked_character")]
+custom_minimum_size = Vector2(300, 30)
+layout_mode = 2
+value = 100.0
+script = ExtResource("3_uc240")
+health_bar = NodePath(".")
+health_label = NodePath("../PlayerHealthLabel")
+character_name_label = NodePath("../../../DebugLabel")
+tracked_character = NodePath("../../../../../Player")
+
+[node name="PlayerHealthLabel" type="Label" parent="UI/UIContainer/TopBar/PlayerPanel" unique_id=1954627900]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "100/100"
+horizontal_alignment = 1
+
+[node name="CenterPanel" type="VBoxContainer" parent="UI/UIContainer/TopBar" unique_id=1322794890]
+layout_mode = 2
+
+[node name="RoundCounterLabel" type="Label" parent="UI/UIContainer/TopBar/CenterPanel" unique_id=1066489265]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "ROUND 1"
+horizontal_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="UI/UIContainer/TopBar/CenterPanel" unique_id=1777615367]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "99:00"
+horizontal_alignment = 1
+
+[node name="EnemyPanel" type="VBoxContainer" parent="UI/UIContainer/TopBar" unique_id=1060796143]
+layout_mode = 2
+
+[node name="EnemyWinsLabel" type="Label" parent="UI/UIContainer/TopBar/EnemyPanel" unique_id=454928965]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "E: 0"
+horizontal_alignment = 1
+
+[node name="EnemyHealthBar" type="ProgressBar" parent="UI/UIContainer/TopBar/EnemyPanel" unique_id=1337002826 node_paths=PackedStringArray("health_bar", "health_label", "character_name_label", "tracked_character")]
+custom_minimum_size = Vector2(300, 30)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+script = ExtResource("4_afgo7")
+health_bar = NodePath(".")
+health_label = NodePath("../EnemyHealthLabel")
+character_name_label = NodePath("../../../DebugLabel")
+tracked_character = NodePath("../../../../../Enemy")
+
+[node name="EnemyHealthLabel" type="Label" parent="UI/UIContainer/TopBar/EnemyPanel" unique_id=340663527]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "100/100"
+horizontal_alignment = 1
+
+[node name="ComboLabel" type="Label" parent="UI/UIContainer" unique_id=1898303931]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = -150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "2 HIT COMBO!"
+horizontal_alignment = 1
+
+[node name="FightAnnouncementLabel" type="Label" parent="UI/UIContainer" unique_id=1114254059]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -50.0
+offset_right = 300.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "FIGHT!"
+horizontal_alignment = 1
+
+[node name="WinnerLabel" type="Label" parent="UI/UIContainer" unique_id=566285567]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -60.0
+offset_right = 400.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 72
+text = "PLAYER WINS!"
+horizontal_alignment = 1
+
+[node name="DebugLabel" type="Label" parent="UI/UIContainer" unique_id=1855886252]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 120.0
+offset_right = 250.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 14
+text = "Debug Info"
+
+[node name="Diagnostic" type="Node" parent="." unique_id=1839589555]
+script = ExtResource("3_afgo7")
+
+[node name="Enemy" parent="." unique_id=1555353797 instance=ExtResource("4")]
+position = Vector2(903, 439)
+
+[node name="Player" parent="." unique_id=1186710696 instance=ExtResource("3")]
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=717513704]
+position = Vector2(576, 450)
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=1202091156]
+offset_left = -576.0
+offset_right = 576.0
+offset_bottom = 50.0
+color = Color(0.35, 0.25, 0.2, 1)

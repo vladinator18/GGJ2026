@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://bhbmy11jinbbw"]
+
+[ext_resource type="Script" uid="uid://7xs1cvamfxm8" path="res://Level1/V2/enemy.gd" id="1_cuivc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_standing"]
+radius = 25.0
+height = 92.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crouch"]
+size = Vector2(52, 51)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(50, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_light_hitbox"]
+size = Vector2(72, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_heavy_hitbox"]
+size = Vector2(85, 55)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=515398415 groups=["enemy"]]
+collision_layer = 2
+script = ExtResource("1_cuivc")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1991098090]
+modulate = Color(1, 0.5, 0.5, 1)
+offset = Vector2(0, -46)
+
+[node name="StandingCollision" type="CollisionShape2D" parent="." unique_id=1913647179]
+position = Vector2(0, -46)
+shape = SubResource("CapsuleShape2D_standing")
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="." unique_id=306672864]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_crouch")
+disabled = true
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1820254876]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=484743466]
+position = Vector2(0, -46)
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="Hitboxes" type="Node2D" parent="." unique_id=372484025]
+
+[node name="LightHitbox" type="Area2D" parent="Hitboxes" unique_id=1951586581]
+position = Vector2(-55, -46)
+collision_layer = 4
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/LightHitbox" unique_id=574597978]
+shape = SubResource("RectangleShape2D_light_hitbox")
+debug_color = Color(0.956863, 0.270588, 0.564706, 0.419608)
+
+[node name="HeavyHitbox" type="Area2D" parent="Hitboxes" unique_id=1674165042]
+position = Vector2(-65, -46)
+collision_layer = 4
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitboxes/HeavyHitbox" unique_id=507593448]
+rotation = -0.258309
+shape = SubResource("RectangleShape2D_heavy_hitbox")
+debug_color = Color(0.956863, 0.121569, 0.14902, 0.419608)
+
+[node name="Camera2D" type="Camera2D" parent="Hitboxes/HeavyHitbox" unique_id=1636604270]
+position = Vector2(65, 46)
