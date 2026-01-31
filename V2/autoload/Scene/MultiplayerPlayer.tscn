@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://bdryptlt3nsvj"]
+
+[ext_resource type="Script" path="res://TSCN/MULTI/MultiplayerPlayer.gd" id="1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1qjqp"]
+radius = 84.0
+height = 196.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x2ukg"]
+size = Vector2(142, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ultimate"]
+radius = 200.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hurtbox"]
+radius = 90.0
+height = 200.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sync"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:current_health")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:ultimate_charge")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:facing_right")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("Sprite2D:flip_h")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+
+[node name="MultiplayerPlayer" type="CharacterBody2D" unique_id=997385986]
+collision_mask = 8
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=723981805]
+position = Vector2(-3, 19)
+shape = SubResource("CapsuleShape2D_1qjqp")
+debug_color = Color(0, 0.6, 0.7019608, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=806883761]
+
+[node name="PlayerVisual" type="ColorRect" parent="Sprite2D" unique_id=36390402]
+offset_left = -40.0
+offset_top = -80.0
+offset_right = 40.0
+offset_bottom = 80.0
+color = Color(0.3, 0.6, 1, 1)
+
+[node name="LightHitbox" type="Area2D" parent="." unique_id=1118558195]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightHitbox" unique_id=959380557]
+position = Vector2(120, 2)
+shape = SubResource("RectangleShape2D_x2ukg")
+debug_color = Color(0.76070434, 0.119744755, 0.24070615, 0.41960785)
+
+[node name="Visual" type="ColorRect" parent="LightHitbox" unique_id=1271638111]
+visible = false
+offset_left = 50.0
+offset_top = -10.0
+offset_right = 190.0
+offset_bottom = 10.0
+color = Color(1, 1, 0, 0.5)
+
+[node name="HeavyHitbox" type="Area2D" parent="." unique_id=531584076]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeavyHitbox" unique_id=854862726]
+position = Vector2(120, -2)
+shape = SubResource("RectangleShape2D_x2ukg")
+debug_color = Color(0.6538517, 0.11929586, 0.26092646, 0.41960785)
+
+[node name="Visual" type="ColorRect" parent="HeavyHitbox" unique_id=1868189563]
+visible = false
+offset_left = 50.0
+offset_top = -12.0
+offset_right = 190.0
+offset_bottom = 12.0
+color = Color(1, 0.5, 0, 0.5)
+
+[node name="UltimateHitbox" type="Area2D" parent="." unique_id=382306002]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UltimateHitbox" unique_id=215494701]
+shape = SubResource("CircleShape2D_ultimate")
+debug_color = Color(0.8, 0, 1, 0.3)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1929551627]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1725118200]
+position = Vector2(-3, 19)
+shape = SubResource("CapsuleShape2D_hurtbox")
+debug_color = Color(1, 0, 0, 0.2)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1449490982]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1889269671]
+replication_config = SubResource("SceneReplicationConfig_sync")

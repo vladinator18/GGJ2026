@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://dpv81t5gl6xwd"]
 
+[ext_resource type="Script" uid="uid://cbnuoa7cwep4h" path="res://autoload/MainMenu_updated.gd" id="1_co3pg"]
+
 [node name="MainMenu" type="Control" unique_id=1151337291]
 layout_mode = 3
 anchors_preset = 15
@@ -7,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_co3pg")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1390961346]
 layout_mode = 1
