@@ -22,6 +22,10 @@ var is_attacking: bool = false
 @export var ultimate_cost: float = 100.0
 var ultimate_active: bool = false
 
+# Player Identity
+var player_id: String = "" # "player1" or "player2"
+var character_key: String = "" # "blue", "red", or "green"
+
 # References
 @onready var sprite = $Sprite2D if has_node("Sprite2D") else null
 @onready var animated_sprite = $AnimatedSprite2D if has_node("AnimatedSprite2D") else null
@@ -43,12 +47,37 @@ var hitbox_original_colors = {}
 # Animation state
 var last_animation: String = "idle"
 
+# Character configuration data
+const CHARACTER_DATA = {
+	"blue": {
+		"color": Color(0.3, 0.5, 1.0),
+		"sprite_path": "res://assets/characters/blue/spritesheet.png",
+		"max_health": 100.0,
+		"walk_speed": 200.0,
+		"run_speed": 350.0
+	},
+	"red": {
+		"color": Color(1.0, 0.3, 0.3),
+		"sprite_path": "res://assets/characters/red/spritesheet.png",
+		"max_health": 120.0,
+		"walk_speed": 180.0,
+		"run_speed": 320.0
+	},
+	"green": {
+		"color": Color(0.3, 1.0, 0.3),
+		"sprite_path": "res://assets/characters/green/spritesheet.png",
+		"max_health": 80.0,
+		"walk_speed": 220.0,
+		"run_speed": 380.0
+	}
+}
+
 func _ready():
-	current_health = max_health
+	# DO NOT call setup here - wait for parent scene to call configure_player()
 	add_to_group("player")
 	add_to_group("alive")
 	
-	# Safety check for hitboxes and setup
+	# Setup hitboxes
 	_setup_hitbox(heavy_hitbox, "heavy")
 	_setup_hitbox(light_hitbox, "light")
 	
@@ -56,6 +85,50 @@ func _ready():
 		ultimate_hitbox.monitoring = false
 		if not ultimate_hitbox.area_entered.is_connected(_on_ultimate_hitbox_area_entered):
 			ultimate_hitbox.area_entered.connect(_on_ultimate_hitbox_area_entered)
+
+## Called by the parent scene (GameScene) to configure this player
+func configure_player(p_id: String, char_key: String):
+	player_id = p_id
+	character_key = char_key
+	
+	# Apply character-specific stats
+	if CHARACTER_DATA.has(char_key):
+		var data = CHARACTER_DATA[char_key]
+		max_health = data.get("max_health", 100.0)
+		walk_speed = data.get("walk_speed", 200.0)
+		run_speed = data.get("run_speed", 350.0)
+		current_health = max_health
+		
+		# Apply visual color tint
+		var color = data.get("color", Color.WHITE)
+		if sprite:
+			sprite.modulate = color
+		if animated_sprite:
+			animated_sprite.modulate = color
+	
+	# Set multiplayer authority
+	if GameState.game_mode == "pvp":
+		_setup_multiplayer_authority()
+	else:
+		# Solo mode: player1 is controlled by user, player2 is AI
+		if player_id == "player1":
+			set_multiplayer_authority(1) # Local player
+		else:
+			# AI controlled - still needs authority for physics
+			set_multiplayer_authority(1)
+	
+	print("[Player] Configured: ", player_id, " | Character: ", char_key, " | Authority: ", get_multiplayer_authority())
+
+func _setup_multiplayer_authority():
+	# In PvP mode, assign authority based on network peer IDs
+	var player_ids = NetworkManager.get_player_ids()
+	if player_ids.size() >= 2:
+		player_ids.sort()
+		
+		if player_id == "player1":
+			set_multiplayer_authority(player_ids[0])
+		elif player_id == "player2":
+			set_multiplayer_authority(player_ids[1])
 
 func _setup_hitbox(hitbox: Area2D, key: String):
 	if hitbox:
@@ -71,6 +144,7 @@ func _setup_hitbox(hitbox: Area2D, key: String):
 			hitbox.area_entered.connect(callable)
 
 func _physics_process(delta):
+	# Only process input if this is our player
 	if not is_multiplayer_authority():
 		return
 	
@@ -80,6 +154,12 @@ func _physics_process(delta):
 		velocity.x = 0
 		return
 	
+	# AI control for player2 in solo mode
+	if GameState.game_mode == "solo" and player_id == "player2":
+		_ai_behavior(delta)
+		return
+	
+	# Normal player input
 	if is_attacking:
 		velocity.x = move_toward(velocity.x, 0, walk_speed * delta * 20)
 		move_and_slide()
@@ -113,6 +193,15 @@ func _physics_process(delta):
 	
 	if ultimate_charge < ultimate_max:
 		ultimate_charge += delta * 5.0
+
+# Simple AI behavior for solo mode
+func _ai_behavior(_delta: float):
+	# TODO: Implement AI logic
+	# For now, just stand idle
+	velocity.x = 0
+	is_walking = false
+	move_and_slide()
+	update_animation()
 
 func flip_character(right: bool):
 	facing_right = right
@@ -203,6 +292,9 @@ func ultimate_attack():
 	if ultimate_sound: ultimate_sound.play()
 	create_ultimate_effect()
 	
+	# Record ultimate usage in GameState
+	GameState.record_ultimate(player_id)
+	
 	if ultimate_hitbox:
 		ultimate_hitbox.monitoring = true
 		await get_tree().create_timer(0.5).timeout
@@ -249,7 +341,11 @@ func take_damage(damage: float):
 	if obj:
 		obj.modulate = Color(1, 0.3, 0.3)
 		await get_tree().create_timer(0.1).timeout
-		obj.modulate = Color(1, 1, 1)
+		# Restore original character color
+		if CHARACTER_DATA.has(character_key):
+			obj.modulate = CHARACTER_DATA[character_key].get("color", Color.WHITE)
+		else:
+			obj.modulate = Color(1, 1, 1)
 	
 	ultimate_charge = min(ultimate_charge + damage * 1.0, ultimate_max)
 	if current_health <= 0: die()
@@ -267,3 +363,12 @@ func die():
 
 func on_hit_landed(damage: float):
 	ultimate_charge = min(ultimate_charge + damage * 2, ultimate_max)
+	# Record attack stats in GameState
+	GameState.record_attack(player_id, damage)
+
+# Getters for UI and game logic
+func get_health_percentage() -> float:
+	return (current_health / max_health) * 100.0
+
+func get_ultimate_percentage() -> float:
+	return (ultimate_charge / ultimate_max) * 100.0
