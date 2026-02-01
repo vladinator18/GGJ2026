@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bulxc0o8jiwj7"]
 
-[ext_resource type="Script" uid="uid://kaxok311cxv8" path="res://autoload/Scene/NetworkPlayer.gd" id="1"]
+[ext_resource type="Script" path="res://autoload/NetworkPlayer.gd" id="1"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1"]
 properties/0/path = NodePath(".:position")

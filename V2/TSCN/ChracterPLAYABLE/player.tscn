@@ -16,6 +16,7 @@ size = Vector2(300, 300)
 
 [node name="Player" type="CharacterBody2D" unique_id=1988624983]
 script = ExtResource("2")
+idle_sprites = Array[Texture2D]([null, null])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=353167550]
 position = Vector2(0, -50)
