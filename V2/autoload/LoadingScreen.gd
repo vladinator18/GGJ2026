@@ -77,8 +77,8 @@ func _on_countdown_timer_timeout():
 				_goto_fight.rpc()
 		else:
 			# Solo mode, just change scene
-			get_tree().change_scene_to_file("res://scenes[]/FightArena.tscn")
+			get_tree().change_scene_to_file("res://autoload/FIGHTLEVEL.tscn")
 
 @rpc("any_peer", "call_local", "reliable")
 func _goto_fight():
-	get_tree().change_scene_to_file("res://scenes/FightArena.tscn")
+	get_tree().change_scene_to_file("res://autoload/FIGHTLEVEL.tscn")

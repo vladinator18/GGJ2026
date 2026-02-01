@@ -1,94 +1,99 @@
 [gd_scene format=3 uid="uid://c3m2ywy7v6qfw"]
 
-[ext_resource type="Script" uid="uid://bav2rcydplu6j" path="res://GD/PLAYER SPRITE/Player.gd" id="1_1qjqp"]
+[ext_resource type="Script" uid="uid://bav2rcydplu6j" path="res://GD/PLAYER SPRITE/Player.gd" id="2"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1qjqp"]
-radius = 84.0
-height = 196.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(60, 100)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x2ukg"]
-size = Vector2(142, 20)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_light"]
+size = Vector2(80, 60)
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_r45eu"]
-a = Vector2(8.899999, 7.3999996)
-b = Vector2(28.699999, -0.39999998)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_heavy"]
+size = Vector2(120, 80)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ymkti"]
-radius = 114.01754
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ultimate"]
+size = Vector2(300, 300)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_jeeoh"]
-radius = 66.0
+[node name="Player" type="CharacterBody2D" unique_id=1988624983]
+script = ExtResource("2")
+idle_sprites = Array[Texture2D]([null, null])
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hurtbox"]
-radius = 90.0
-height = 200.0
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=353167550]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_body")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ultimate"]
-radius = 200.0
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1233809010]
+position = Vector2(0, -50)
+animation = &""
+autoplay = "idle"
 
-[node name="Player" type="CharacterBody2D"]
-collision_mask = 8
-script = ExtResource("1_1qjqp")
+[node name="WalkSound" type="AudioStreamPlayer" parent="." unique_id=1234935211]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3, 19)
-shape = SubResource("CapsuleShape2D_1qjqp")
-debug_color = Color(0, 0.6, 0.7019608, 0.41960785)
+[node name="LightAttackSound" type="AudioStreamPlayer" parent="." unique_id=620964566]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="HeavyAttackSound" type="AudioStreamPlayer" parent="." unique_id=981088731]
 
-[node name="LightHitbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
-monitoring = false
+[node name="UltimateSound" type="AudioStreamPlayer" parent="." unique_id=39969813]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LightHitbox"]
-position = Vector2(120, 2)
-shape = SubResource("RectangleShape2D_x2ukg")
-debug_color = Color(0.76070434, 0.119744755, 0.24070615, 0.41960785)
+[node name="DamageSound" type="AudioStreamPlayer" parent="." unique_id=1618631991]
 
-[node name="Visual" type="ColorRect" parent="LightHitbox"]
+[node name="DeathSound" type="AudioStreamPlayer" parent="." unique_id=1891491243]
+
+[node name="LightHitbox" type="Area2D" parent="." unique_id=336556261]
+collision_layer = 2
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightHitbox" unique_id=564236791]
+position = Vector2(60, -50)
+shape = SubResource("RectangleShape2D_light")
+
+[node name="Visual" type="ColorRect" parent="LightHitbox" unique_id=1987334141]
 visible = false
-offset_left = 50.0
-offset_top = -10.0
-offset_right = 190.0
-offset_bottom = 10.0
-color = Color(1, 1, 0, 0.5)
+offset_left = 20.0
+offset_top = -80.0
+offset_right = 100.0
+offset_bottom = -20.0
+color = Color(0, 0.8, 1, 0.4)
 
-[node name="HeavyHitbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
-monitoring = false
+[node name="HeavyHitbox" type="Area2D" parent="." unique_id=95890654]
+collision_layer = 2
+collision_mask = 4
+monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HeavyHitbox"]
-position = Vector2(120, -2)
-shape = SubResource("RectangleShape2D_x2ukg")
-debug_color = Color(0.6538517, 0.11929586, 0.26092646, 0.41960785)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeavyHitbox" unique_id=2043073725]
+position = Vector2(80, -50)
+shape = SubResource("RectangleShape2D_heavy")
 
-[node name="Visual" type="ColorRect" parent="HeavyHitbox"]
+[node name="Visual" type="ColorRect" parent="HeavyHitbox" unique_id=126721828]
 visible = false
-offset_left = 50.0
-offset_top = -12.0
-offset_right = 190.0
-offset_bottom = 12.0
-color = Color(1, 0.5, 0, 0.5)
+offset_left = 20.0
+offset_top = -90.0
+offset_right = 140.0
+offset_bottom = -10.0
+color = Color(1, 0.2, 0, 0.4)
 
-[node name="UltimateHitbox" type="Area2D" parent="."]
+[node name="UltimateHitbox" type="Area2D" parent="." unique_id=50321202]
+collision_layer = 2
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UltimateHitbox" unique_id=238762037]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_ultimate")
+
+[node name="Visual" type="ColorRect" parent="UltimateHitbox" unique_id=1006188755]
+visible = false
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 100.0
+color = Color(1, 0.8, 0, 0.4)
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1044772211]
 collision_layer = 4
 collision_mask = 2
-monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="UltimateHitbox"]
-shape = SubResource("CircleShape2D_ultimate")
-debug_color = Color(0.8, 0, 1, 0.3)
-
-[node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(-3, 19)
-shape = SubResource("CapsuleShape2D_hurtbox")
-debug_color = Color(1, 0, 0, 0.2)
-
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=25788756]
+position = Vector2(0, -50)
+shape = SubResource("RectangleShape2D_body")

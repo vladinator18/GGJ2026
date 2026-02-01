@@ -1,19 +1,14 @@
 extends Control
 
+## Character Selection - Multiplayer & Solo Support
 @onready var your_selection_label = $VBoxContainer/SelectionInfo/YourSelection
 @onready var opponent_selection_label = $VBoxContainer/SelectionInfo/OpponentSelection
 @onready var status_label = $VBoxContainer/StatusLabel
 @onready var ready_button = $VBoxContainer/ButtonsContainer/ReadyButton
 @onready var back_button = $VBoxContainer/ButtonsContainer/BackButton
 
-@onready var select_button_1 = $VBoxContainer/CharactersContainer/Character1/SelectButton1
-@onready var select_button_2 = $VBoxContainer/CharactersContainer/Character2/SelectButton2
-@onready var select_button_3 = $VBoxContainer/CharactersContainer/Character3/SelectButton3
-
 var selected_character: String = ""
 var is_ready: bool = false
-var network_manager
-var game_state
 
 var character_names = {
 	"blue": "Blue Fighter",
@@ -22,125 +17,84 @@ var character_names = {
 }
 
 func _ready():
-	game_state = get_node("/root/GameState")
-	
-	# Check if multiplayer
+	# Check if multiplayer mode is active via GameState
 	if GameState.game_mode == "pvp":
-		network_manager = get_node("/root/NetworkManager")
-		opponent_selection_label.visible = true
-		ready_button.visible = true
+		if opponent_selection_label: opponent_selection_label.visible = true
+		if ready_button: ready_button.visible = true
 		
-		# Connect to network signals
-		network_manager.player_connected.connect(_on_player_updated)
-		network_manager.game_started.connect(_on_game_started)
+		# Connect to NetworkManager signals for real-time updates
+		NetworkManager.player_connected.connect(_on_player_updated)
+		NetworkManager.game_started.connect(_on_game_started)
 		
-		# Update UI with existing selections
 		_update_ui()
 
 func _on_character_selected(character: String):
 	selected_character = character
-	your_selection_label.text = "Your Selection: " + character_names[character]
-	your_selection_label.modulate = Color.GREEN
 	
-	# Store in GameState
+	# Safe assignment to prevent 'null instance' error
+	if your_selection_label:
+		your_selection_label.text = "Your Selection: " + character_names[character]
+		your_selection_label.modulate = Color.GREEN
+	
 	if GameState.game_mode == "solo":
 		GameState.player1_character = character
-	elif GameState.game_mode == "pvp" and network_manager:
-		network_manager.set_player_character(character)
+		_handle_solo_ai_setup(character)
+	else:
+		NetworkManager.set_player_character(character)
 	
-	status_label.text = "Character selected! " + ("Click READY" if GameState.game_mode == "pvp" else "Click BACK to start")
-	status_label.modulate = Color.GREEN
+	if status_label:
+		status_label.text = "Selected! " + ("Click READY" if GameState.game_mode == "pvp" else "Starting...")
+		status_label.modulate = Color.GREEN
+
+func _handle_solo_ai_setup(player_char: String):
+	var options = ["blue", "red", "green"]
+	options.erase(player_char)
+	GameState.player2_character = options[randi() % options.size()]
 	
-	# In solo mode, go directly to loading
-	if GameState.game_mode == "solo":
-		# Set AI character (random different from player)
-		var ai_characters = ["blue", "red", "green"]
-		ai_characters.erase(character)
-		GameState.player2_character = ai_characters[randi() % ai_characters.size()]
-		
-		# Small delay then go to loading
-		await get_tree().create_timer(1.0).timeout
-		get_tree().change_scene_to_file("res://autoload/Scene/LoadingScreen.tscn")
+	await get_tree().create_timer(1.0).timeout
+	get_tree().change_scene_to_file("res://autoload/Scene/LoadingScreen.tscn")
 
 func _on_ready_button_pressed():
 	if selected_character == "":
-		status_label.text = "Please select a character first!"
-		status_label.modulate = Color.RED
+		if status_label: status_label.text = "Select a character first!"
 		return
 	
 	is_ready = true
 	ready_button.disabled = true
-	status_label.text = "Waiting for opponent..."
-	status_label.modulate = Color.YELLOW
-	
-	# Tell network we're ready
-	if network_manager:
-		network_manager.set_ready(true)
-		
-		# Check if both ready
-		_check_if_ready_to_start()
+	NetworkManager.set_ready(true)
+	_check_start_conditions()
 
-func _on_back_button_pressed():
-	if GameState.game_mode == "pvp" and network_manager:
-		network_manager.disconnect_from_network()
-		get_tree().change_scene_to_file("res://scenes/PVPLobby.tscn")
-	else:
-		get_tree().change_scene_to_file("res://scenes/GameplaySelect.tscn")
-
-func _on_player_updated(peer_id: int, player_data: Dictionary):
+func _on_player_updated(_id: int, _data: Dictionary):
 	_update_ui()
-	_check_if_ready_to_start()
+	_check_start_conditions()
 
 func _update_ui():
-	if not network_manager:
-		return
+	var ids = NetworkManager.get_player_ids()
+	var my_id = NetworkManager.get_peer_id()
 	
-	var player_ids = network_manager.get_player_ids()
-	var my_id = network_manager.get_peer_id()
-	
-	# Find opponent
-	for peer_id in player_ids:
-		if peer_id != my_id:
-			var opponent_data = network_manager.get_player_data(peer_id)
-			var opponent_char = opponent_data.get("character", "")
-			
-			if opponent_char != "":
-				opponent_selection_label.text = "Opponent Selection: " + character_names.get(opponent_char, "Unknown")
-				opponent_selection_label.modulate = Color.YELLOW
-			else:
-				opponent_selection_label.text = "Opponent Selection: None"
-				opponent_selection_label.modulate = Color.WHITE
+	for id in ids:
+		if id != my_id:
+			var data = NetworkManager.get_player_data(id)
+			var char_key = data.get("character", "")
+			if opponent_selection_label and char_key != "":
+				opponent_selection_label.text = "Opponent: " + character_names.get(char_key, "Thinking...")
 
-func _check_if_ready_to_start():
-	if not network_manager:
-		return
-	
-	if network_manager.all_players_ready():
-		# Both players ready, start the game
-		status_label.text = "Both players ready! Starting..."
-		status_label.modulate = Color.GREEN
+func _check_start_conditions():
+	if NetworkManager.all_players_ready() and NetworkManager.is_server():
+		# Sync final data to GameState before transition
+		var ids = NetworkManager.get_player_ids()
+		ids.sort()
+		var p1 = NetworkManager.get_player_data(ids[0])
+		var p2 = NetworkManager.get_player_data(ids[1])
 		
-		# Store character selections in GameState
-		var player_ids = network_manager.get_player_ids()
-		player_ids.sort()
+		GameState.player1_character = p1.get("character", "blue")
+		GameState.player2_character = p2.get("character", "red")
 		
-		if player_ids.size() >= 2:
-			var p1_data = network_manager.get_player_data(player_ids[0])
-			var p2_data = network_manager.get_player_data(player_ids[1])
-			
-			GameState.player1_character = p1_data.get("character", "blue")
-			GameState.player2_character = p2_data.get("character", "red")
-			GameState.player1_name = p1_data.get("name", "Player 1")
-			GameState.player2_name = p2_data.get("name", "Player 2")
-		
-		# Host starts the game
-		if network_manager.is_server():
-			await get_tree().create_timer(1.0).timeout
-			_goto_loading.rpc()
+		_goto_loading.rpc()
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func _goto_loading():
-	get_tree().change_scene_to_file("res://scenes/LoadingScreen.tscn")
+	get_tree().change_scene_to_file("res://autoload/Scene/LoadingScreen.tscn")
 
 func _on_game_started():
-	get_tree().change_scene_to_file("res://scenes/LoadingScreen.tscn")
+	get_tree().change_scene_to_file("res://autoload/Scene/LoadingScreen.tscn")
