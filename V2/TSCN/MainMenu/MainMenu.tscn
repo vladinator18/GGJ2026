@@ -13,15 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_co3pg")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1390961346]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.15, 0.15, 0.2, 1)
-
 [node name="Title" type="Label" parent="." unique_id=1219217062]
 layout_mode = 0
 offset_left = 71.0
@@ -77,11 +68,13 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 
 [node name="Bgmenu" type="Sprite2D" parent="." unique_id=855298797]
+visible = false
 position = Vector2(576, 314.99997)
 scale = Vector2(0.5854167, 0.5833333)
 texture = ExtResource("2_dyr8r")
 
 [node name="Bgplaybt" type="Sprite2D" parent="." unique_id=2058190959]
+visible = false
 position = Vector2(492.00003, 354)
 scale = Vector2(0.7162616, 0.7143519)
 texture = ExtResource("3_558yj")

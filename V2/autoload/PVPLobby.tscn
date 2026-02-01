@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dw1hwu3q01pvt"]
 
-[ext_resource type="Script" path="res://autoload/PVPLobby.gd" id="1"]
+[ext_resource type="Script" uid="uid://c1mwe8giiqyc1" path="res://autoload/PVPLobby.gd" id="1"]
 
 [node name="PVPLobby" type="Control" unique_id=1989303896]
 layout_mode = 3

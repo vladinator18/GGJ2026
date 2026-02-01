@@ -10,11 +10,10 @@ signal connection_failed
 signal server_disconnected
 
 # Data storage
-var players = {} # Dictionary to store: peer_id -> { "name": "Name" }
+var players = {} # peer_id -> { "name": "Name" }
 var local_player_name = "Player"
 
 func _ready():
-	# Connect Godot's built-in multiplayer signals to our internal logic
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.connected_to_server.connect(_on_connection_success)
@@ -38,16 +37,17 @@ func get_player_data(id: int):
 	return players.get(id, {"name": "Unknown"})
 
 ## --- COMMANDS ---
-func create_server(port: int) -> Error:
+func create_server(port: int = 7777) -> Error:
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	if error == OK:
 		multiplayer.multiplayer_peer = peer
-		# Register host immediately
-		_register_player.rpc(get_peer_id(), {"name": local_player_name})
+		# Local registration for the Host
+		players[get_peer_id()] = {"name": local_player_name}
+		player_connected.emit(get_peer_id(), players[get_peer_id()])
 	return error
 
-func join_server(ip: String, port: int) -> Error:
+func join_server(ip: String, port: int = 7777) -> Error:
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(ip, port)
 	if error == OK:
@@ -55,19 +55,26 @@ func join_server(ip: String, port: int) -> Error:
 	return error
 
 func disconnect_from_network():
+	if multiplayer.multiplayer_peer:
+		multiplayer.multiplayer_peer.close()
 	multiplayer.multiplayer_peer = null
 	players.clear()
 
 ## --- MULTIPLAYER LOGIC (RPCs) ---
-@rpc("any_peer", "call_local", "reliable")
-func _register_player(id: int, data: Dictionary):
+
+# This handles the "Exchange of information"
+@rpc("any_peer", "reliable")
+func _register_player(data: Dictionary):
+	var id = multiplayer.get_remote_sender_id()
 	players[id] = data
 	player_connected.emit(id, data)
+	print("Registered player: ", data.name, " with ID: ", id)
 
 ## --- SIGNAL CALLBACKS ---
+
 func _on_peer_connected(id: int):
-	# If we are the client who just joined, send our name to everyone
-	_register_player.rpc_id(id, get_peer_id(), {"name": local_player_name})
+	# When anyone connects, we send them our local data via RPC
+	_register_player.rpc({"name": local_player_name})
 
 func _on_peer_disconnected(id: int):
 	if players.has(id):

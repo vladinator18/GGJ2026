@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://cgo1j2e2kj1o0" path="res://autoload/Scene/CharacterSelect.gd" id="1"]
 =======
 [ext_resource type="Script" uid="uid://d2oqiuipacqlw" path="res://autoload/Scene/GameplaySelect.gd" id="1"]
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 [node name="GameplaySelect" type="Control" unique_id=1962188416]
