@@ -1,5 +1,6 @@
 extends Node
 
+<<<<<<< Updated upstream
 ## NetworkManager - AutoLoad Singleton for Multiplayer
 ## Add this to Project > Project Settings > Globals > AutoLoad
 ## Path: res://autoload/NetworkManager.gd
@@ -24,12 +25,20 @@ var local_player_data: Dictionary = {
 	"character": "",
 	"ready": false
 }
+=======
+## NetworkManager.gd - The Global Multiplayer Handler
+
+# Signals that the Main Menu is looking for
+signal connection_failed
+signal connection_success
+>>>>>>> Stashed changes
 
 # Network state
 var is_host: bool = false
 var peer: ENetMultiplayerPeer = null
 
 func _ready():
+<<<<<<< Updated upstream
 	# Connect to multiplayer signals
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -232,3 +241,51 @@ func _on_server_disconnected():
 	is_host = false
 	
 	server_disconnected.emit()
+=======
+	# Connect internal multiplayer signals to our custom signals
+	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.connected_to_server.connect(_on_connection_success)
+
+## HOSTING LOGIC
+func host_game(player_name: String) -> bool:
+	var peer = ENetMultiplayerPeer.new()
+	# Default port 1234, Max 2 players for PvP
+	var error = peer.create_server(1234, 2)
+	
+	if error != OK:
+		print("Failed to host: ", error)
+		return false
+		
+	multiplayer.multiplayer_peer = peer
+	print("Server started by: ", player_name)
+	return true
+
+## JOINING LOGIC
+func join_game(ip: String, player_name: String) -> bool:
+	if ip == "": ip = "127.0.0.1"
+	
+	var peer = ENetMultiplayerPeer.new()
+	var error = peer.create_client(ip, 1234)
+	
+	if error != OK:
+		print("Failed to initialize client: ", error)
+		return false
+		
+	multiplayer.multiplayer_peer = peer
+	print(player_name, " attempting to join: ", ip)
+	return true
+
+## CLEANUP LOGIC
+func disconnect_from_game():
+	if multiplayer.multiplayer_peer:
+		multiplayer.multiplayer_peer.close()
+		multiplayer.multiplayer_peer = null
+		print("Network: Disconnected.")
+
+# Internal signal handlers
+func _on_connection_failed():
+	connection_failed.emit()
+
+func _on_connection_success():
+	connection_success.emit()
+>>>>>>> Stashed changes

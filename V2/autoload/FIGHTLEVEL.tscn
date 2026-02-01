@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://bcwervk3j6pcn"]
 
+<<<<<<< Updated upstream
 [ext_resource type="Script" uid="uid://dibupvuguoa1y" path="res://autoload/FIGHTLEVEL.gd" id="1_q3xvm"]
+=======
+[ext_resource type="Script" uid="uid://dsxt6gnivc3dr" path="res://autoload/Scene/FIGHTLEVEL.gd" id="1_q3xvm"]
+>>>>>>> Stashed changes
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ground"]
 
