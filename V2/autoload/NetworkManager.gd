@@ -1,234 +1,297 @@
-extends Node
+extends CharacterBody2D
 
-## NetworkManager - AutoLoad Singleton for Multiplayer
-## Add this to Project > Project Settings > Globals > AutoLoad
-## Path: res://autoload/NetworkManager.gd
-## Node Name: NetworkManager
+## NetworkPlayer - Multiplayer synchronized fighter
+## Supports both Solo (AI) and PVP modes
 
-# Signals
-signal player_connected(peer_id: int, player_data: Dictionary)
-signal player_disconnected(peer_id: int)
-signal connection_successful()
-signal connection_failed()
-signal server_disconnected()
-signal game_started()
+# Inspector configurable variables
+@export_group("Movement")
+@export var walk_speed: float = 300.0
+@export var jump_force: float = 500.0
+@export var gravity: float = 980.0
 
-# Network configuration
-@export var default_port: int = 7777
-@export var max_players: int = 2
+@export_group("Combat")
+@export var max_health: float = 100.0
+@export var light_damage: float = 10.0
+@export var heavy_damage: float = 20.0
+@export var ultimate_damage: float = 50.0
 
-# Player data storage
-var players: Dictionary = {}  # peer_id -> player_data
-var local_player_data: Dictionary = {
-	"name": "Player",
-	"character": "",
-	"ready": false
+@export_group("Ultimate")
+@export var ultimate_max: float = 100.0
+@export var ultimate_cost: float = 100.0
+@export var ultimate_charge_rate: float = 5.0
+
+@export_group("Player Info")
+@export var player_name: String = "Player"
+@export var character_type: String = "blue"
+@export var is_ai: bool = false
+
+# Player state (synced over network)
+var current_health: float = 100.0
+var ultimate_charge: float = 0.0
+var facing_right: bool = true
+var is_dead: bool = false
+
+# Local state
+var is_attacking: bool = false
+var peer_id: int = 1
+
+# AI variables
+var ai_target: CharacterBody2D = null
+var ai_attack_timer: float = 0.0
+var ai_decision_timer: float = 0.0
+
+# References
+@onready var sprite = $Sprite2D
+@onready var name_label = $NameLabel
+@onready var light_hitbox = $LightHitbox
+@onready var heavy_hitbox = $HeavyHitbox
+@onready var ultimate_hitbox = $UltimateHitbox
+@onready var camera = $Camera2D
+
+# Character colors
+var character_colors = {
+	"blue": Color(0.3, 0.6, 1, 1),
+	"red": Color(1, 0.3, 0.3, 1),
+	"green": Color(0.3, 1, 0.3, 1)
 }
 
-# Network state
-var is_host: bool = false
-var peer: ENetMultiplayerPeer = null
-
 func _ready():
-	# Connect to multiplayer signals
-	multiplayer.peer_connected.connect(_on_peer_connected)
-	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	multiplayer.connected_to_server.connect(_on_connected_to_server)
-	multiplayer.connection_failed.connect(_on_connection_failed)
-	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	current_health = max_health
 	
-	print("[NetworkManager] Ready and waiting for connections")
+	if sprite and character_type in character_colors:
+		sprite.color = character_colors[character_type]
+	
+	if name_label:
+		name_label.text = player_name
+	
+	if light_hitbox:
+		light_hitbox.monitoring = false
+		light_hitbox.area_entered.connect(_on_light_hitbox_hit)
+	if heavy_hitbox:
+		heavy_hitbox.monitoring = false
+		heavy_hitbox.area_entered.connect(_on_heavy_hitbox_hit)
+	if ultimate_hitbox:
+		ultimate_hitbox.monitoring = false
+		ultimate_hitbox.area_entered.connect(_on_ultimate_hitbox_hit)
+	
+	if camera:
+		camera.enabled = is_multiplayer_authority() and not is_ai
 
-## Create server (host)
-func create_server(port: int = -1) -> int:
-	if port == -1:
-		port = default_port
+func _physics_process(delta):
+	if not is_on_floor():
+		velocity.y += gravity * delta
 	
-	peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(port, max_players)
-	
-	if error != OK:
-		push_error("[NetworkManager] Failed to create server: " + str(error))
-		return error
-	
-	multiplayer.multiplayer_peer = peer
-	is_host = true
-	
-	# Add host to players list
-	var host_id = multiplayer.get_unique_id()
-	players[host_id] = local_player_data.duplicate()
-	
-	print("[NetworkManager] Server created on port ", port)
-	print("[NetworkManager] Host ID: ", host_id)
-	
-	return OK
-
-## Join server (client)
-func join_server(address: String, port: int = -1) -> int:
-	if port == -1:
-		port = default_port
-	
-	peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(address, port)
-	
-	if error != OK:
-		push_error("[NetworkManager] Failed to join server: " + str(error))
-		return error
-	
-	multiplayer.multiplayer_peer = peer
-	is_host = false
-	
-	print("[NetworkManager] Attempting to connect to ", address, ":", port)
-	
-	return OK
-
-## Disconnect from network
-func disconnect_from_network():
-	if peer:
-		peer.close()
-		multiplayer.multiplayer_peer = null
-		peer = null
-	
-	players.clear()
-	is_host = false
-	
-	print("[NetworkManager] Disconnected from network")
-
-## Update local player data
-func set_player_name(player_name: String):
-	local_player_data["name"] = player_name
-	
-	# If already connected, sync to network
-	if multiplayer.has_multiplayer_peer():
-		_update_player_data.rpc(multiplayer.get_unique_id(), local_player_data)
-
-## Set character selection
-func set_player_character(character_name: String):
-	local_player_data["character"] = character_name
-	
-	# If already connected, sync to network
-	if multiplayer.has_multiplayer_peer():
-		_update_player_data.rpc(multiplayer.get_unique_id(), local_player_data)
-
-## Set ready state
-func set_ready(ready: bool):
-	local_player_data["ready"] = ready
-	
-	# Sync to network
-	if multiplayer.has_multiplayer_peer():
-		_update_player_data.rpc(multiplayer.get_unique_id(), local_player_data)
-
-## Check if all players are ready
-func all_players_ready() -> bool:
-	if players.size() < max_players:
-		return false
-	
-	for player_data in players.values():
-		if not player_data.get("ready", false):
-			return false
-	
-	return true
-
-## Get player data by peer ID
-func get_player_data(peer_id: int) -> Dictionary:
-	return players.get(peer_id, {})
-
-## Get all player IDs
-func get_player_ids() -> Array:
-	return players.keys()
-
-## Check if we're the server
-func is_server() -> bool:
-	return multiplayer.is_server()
-
-## Get our peer ID
-func get_peer_id() -> int:
-	if multiplayer.has_multiplayer_peer():
-		return multiplayer.get_unique_id()
-	return 0
-
-## Start the game (host only)
-func start_game():
-	if not is_server():
-		push_error("[NetworkManager] Only the host can start the game")
+	if is_dead:
+		velocity.x = 0
 		return
 	
-	if not all_players_ready():
-		push_error("[NetworkManager] Not all players are ready")
+	if is_attacking:
+		velocity.x = move_toward(velocity.x, 0, walk_speed * delta * 10)
+		move_and_slide()
 		return
 	
-	# Tell all clients to start
-	_start_game_rpc.rpc()
+	if is_ai:
+		_ai_behavior(delta)
+	elif is_multiplayer_authority():
+		_player_input(delta)
+	
+	move_and_slide()
+	
+	if ultimate_charge < ultimate_max:
+		ultimate_charge += delta * ultimate_charge_rate
 
-## RPC: Update player data across network
-@rpc("any_peer", "reliable")
-func _update_player_data(peer_id: int, player_data: Dictionary):
-	players[peer_id] = player_data
-	player_connected.emit(peer_id, player_data)
-	print("[NetworkManager] Player data updated: ", peer_id, " -> ", player_data)
+func _player_input(delta):
+	"""Handle player input using project-defined actions"""
+	var direction = Input.get_axis("ui_left", "ui_right")
+	
+	if direction != 0:
+		velocity.x = direction * walk_speed
+		if direction > 0 and not facing_right:
+			_flip_character.rpc(true) # Synced flip
+		elif direction < 0 and facing_right:
+			_flip_character.rpc(false) # Synced flip
+	else:
+		velocity.x = move_toward(velocity.x, 0, walk_speed * delta * 10)
+	
+	# Updated to use custom actions from project.godot
+	if Input.is_action_just_pressed("light_attack"):
+		_request_light_attack.rpc()
+	elif Input.is_action_just_pressed("heavy_attack"):
+		_request_heavy_attack.rpc()
+	elif Input.is_action_just_pressed("ultimate_attack"):
+		_request_ultimate_attack.rpc()
 
-## RPC: Register new player
-@rpc("any_peer", "reliable")
-func _register_player(peer_id: int, player_data: Dictionary):
-	players[peer_id] = player_data
-	player_connected.emit(peer_id, player_data)
+func _ai_behavior(delta):
+	"""AI control logic"""
+	if not ai_target:
+		velocity.x = 0
+		return
 	
-	print("[NetworkManager] Player registered: ", peer_id, " -> ", player_data)
+	ai_attack_timer -= delta
+	ai_decision_timer -= delta
 	
-	# If we're the server, send all existing players to the new client
-	if is_server():
-		for existing_peer_id in players:
-			_register_player.rpc_id(peer_id, existing_peer_id, players[existing_peer_id])
+	var distance = global_position.distance_to(ai_target.global_position)
+	var direction = sign(ai_target.global_position.x - global_position.x)
+	
+	if distance > 150:
+		velocity.x = direction * walk_speed
+		if direction > 0 and not facing_right:
+			_flip_character.rpc(true)
+		elif direction < 0 and facing_right:
+			_flip_character.rpc(false)
+	elif distance < 80:
+		velocity.x = -direction * walk_speed * 0.5
+	else:
+		velocity.x = move_toward(velocity.x, 0, walk_speed * delta * 10)
+	
+	if ai_attack_timer <= 0 and distance <= 150 and not is_attacking:
+		if ai_decision_timer <= 0:
+			var attack_roll = randf()
+			
+			if ultimate_charge >= ultimate_cost and randf() < 0.3:
+				_request_ultimate_attack.rpc()
+				ai_attack_timer = randf_range(2.0, 3.0)
+			elif attack_roll < 0.4:
+				_request_heavy_attack.rpc()
+				ai_attack_timer = randf_range(1.0, 1.5)
+			elif attack_roll < 0.8:
+				_request_light_attack.rpc()
+				ai_attack_timer = randf_range(0.5, 1.0)
+			
+			ai_decision_timer = randf_range(0.2, 0.5)
 
-## RPC: Start the game
-@rpc("any_peer", "call_local", "reliable")
-func _start_game_rpc():
-	game_started.emit()
-	print("[NetworkManager] Game starting!")
+@rpc("any_peer", "call_local")
+func _flip_character(right: bool):
+	facing_right = right
+	if sprite:
+		sprite.scale.x = -1 if not right else 1
+	
+	if light_hitbox and light_hitbox.has_node("CollisionShape2D"):
+		var shape = light_hitbox.get_node("CollisionShape2D")
+		shape.position.x = abs(shape.position.x) * (1 if right else -1)
+	
+	if heavy_hitbox and heavy_hitbox.has_node("CollisionShape2D"):
+		var shape = heavy_hitbox.get_node("CollisionShape2D")
+		shape.position.x = abs(shape.position.x) * (1 if right else -1)
 
-## Signal callbacks
-func _on_peer_connected(id: int):
-	print("[NetworkManager] Peer connected: ", id)
-	
-	# Send our data to the new peer
-	if is_server():
-		_register_player.rpc_id(id, multiplayer.get_unique_id(), local_player_data)
+@rpc("any_peer", "call_local")
+func _request_light_attack():
+	if not is_attacking and not is_dead:
+		_perform_light_attack.rpc()
 
-func _on_peer_disconnected(id: int):
-	print("[NetworkManager] Peer disconnected: ", id)
-	
-	if players.has(id):
-		players.erase(id)
-		player_disconnected.emit(id)
+@rpc("any_peer", "call_local")
+func _request_heavy_attack():
+	if not is_attacking and not is_dead:
+		_perform_heavy_attack.rpc()
 
-func _on_connected_to_server():
-	print("[NetworkManager] Successfully connected to server")
-	
-	# Register ourselves with the server
-	var my_id = multiplayer.get_unique_id()
-	_register_player.rpc_id(1, my_id, local_player_data)
-	
-	connection_successful.emit()
+@rpc("any_peer", "call_local")
+func _request_ultimate_attack():
+	if not is_attacking and not is_dead and ultimate_charge >= ultimate_cost:
+		_perform_ultimate_attack.rpc()
 
-func _on_connection_failed():
-	print("[NetworkManager] Connection failed")
-	
-	if peer:
-		peer.close()
-		multiplayer.multiplayer_peer = null
-		peer = null
-	
-	connection_failed.emit()
+@rpc("any_peer", "call_local")
+func _perform_light_attack():
+	if is_attacking or is_dead: return
+	is_attacking = true
+	if light_hitbox:
+		light_hitbox.monitoring = true
+		if light_hitbox.has_node("Visual"):
+			light_hitbox.get_node("Visual").visible = true
+		await get_tree().create_timer(0.15).timeout
+		light_hitbox.monitoring = false
+		if light_hitbox.has_node("Visual"):
+			light_hitbox.get_node("Visual").visible = false
+	is_attacking = false
 
-func _on_server_disconnected():
-	print("[NetworkManager] Server disconnected")
-	
-	if peer:
-		peer.close()
-		multiplayer.multiplayer_peer = null
-		peer = null
-	
-	players.clear()
-	is_host = false
-	
-	server_disconnected.emit()
+@rpc("any_peer", "call_local")
+func _perform_heavy_attack():
+	if is_attacking or is_dead: return
+	is_attacking = true
+	if heavy_hitbox:
+		heavy_hitbox.monitoring = true
+		if heavy_hitbox.has_node("Visual"):
+			heavy_hitbox.get_node("Visual").visible = true
+		await get_tree().create_timer(0.25).timeout
+		heavy_hitbox.monitoring = false
+		if heavy_hitbox.has_node("Visual"):
+			heavy_hitbox.get_node("Visual").visible = false
+	is_attacking = false
+
+@rpc("any_peer", "call_local")
+func _perform_ultimate_attack():
+	if is_attacking or is_dead or ultimate_charge < ultimate_cost: return
+	is_attacking = true
+	ultimate_charge = 0.0
+	_create_ultimate_effect()
+	if ultimate_hitbox:
+		ultimate_hitbox.monitoring = true
+		await get_tree().create_timer(0.5).timeout
+		ultimate_hitbox.monitoring = false
+	is_attacking = false
+
+func _create_ultimate_effect():
+	var effect = ColorRect.new()
+	effect.color = character_colors.get(character_type, Color.WHITE)
+	effect.color.a = 0.6
+	effect.size = Vector2(400, 400)
+	effect.position = Vector2(-200, -200)
+	add_child(effect)
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(effect, "modulate:a", 0.0, 0.5)
+	tween.tween_property(effect, "scale", Vector2(1.5, 1.5), 0.5)
+	await tween.finished
+	effect.queue_free()
+
+func _on_light_hitbox_hit(area: Area2D):
+	if is_multiplayer_authority() or is_ai:
+		var target = area.get_parent()
+		if target and target != self and target.has_method("take_damage"):
+			target.take_damage.rpc(light_damage, get_path())
+
+func _on_heavy_hitbox_hit(area: Area2D):
+	if is_multiplayer_authority() or is_ai:
+		var target = area.get_parent()
+		if target and target != self and target.has_method("take_damage"):
+			target.take_damage.rpc(heavy_damage, get_path())
+
+func _on_ultimate_hitbox_hit(area: Area2D):
+	if is_multiplayer_authority() or is_ai:
+		var target = area.get_parent()
+		if target and target != self and target.has_method("take_damage"):
+			target.take_damage.rpc(ultimate_damage, get_path())
+
+@rpc("any_peer", "call_local")
+func take_damage(damage: float, attacker_path: NodePath):
+	if is_dead: return
+	current_health -= damage
+	if sprite:
+		sprite.modulate = Color(1, 0.3, 0.3)
+		await get_tree().create_timer(0.1).timeout
+		if sprite and not is_dead:
+			sprite.modulate = Color.WHITE
+	ultimate_charge = min(ultimate_charge + damage, ultimate_max)
+	if current_health <= 0:
+		_die()
+
+func _die():
+	is_dead = true
+	if sprite:
+		var tween = create_tween()
+		tween.tween_property(sprite, "modulate:a", 0.0, 1.0)
+
+func setup(id: int, p_name: String, char: String, ai: bool = false):
+	peer_id = id
+	player_name = p_name
+	character_type = char
+	is_ai = ai
+	if not ai:
+		set_multiplayer_authority(id)
+	name = "Player" + str(id)
+	if sprite and character_type in character_colors:
+		sprite.color = character_colors[character_type]
+	if name_label:
+		name_label.text = player_name
+
+func set_ai_target(target: CharacterBody2D):
+	ai_target = target
